@@ -1,5 +1,5 @@
-import os
 import json
+import os
 from datetime import date, timedelta
 
 import pandas as pd
@@ -8,10 +8,12 @@ from decouple import config
 from pynubank import Nubank
 
 def main():
+    MONTHS = ['','Jan','Fev','Mar','Abr','Maio','Jun','Jul','Ago','Set','Out','Nov','Dez']
     NUBANK_CPF = config('NUBANK_CPF')
     NUBANK_PASSWORD = config('NUBANK_PASSWORD')
     SPREADSHEET = 'Gastos 2017'
-    WORKSHEET = 'NuBank'
+    DATE = date.today() - timedelta(1)
+    WORKSHEET = MONTHS[DATE.month]
     AUTH_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'service_creds.json')
 
     if not os.path.exists(AUTH_FILE):
@@ -23,7 +25,7 @@ def main():
 
     print('--- NuBank events to DataFrame ---')
     dataframe = __create_dataframe(nubank_events)
-    last_events = __get_yesterday_events_records(dataframe)
+    last_events = __get_events_records_by_date(dataframe, DATE)
 
     print('--- Authenticate in Google Spreadsheet ---')
     gc = pygsheets.authorize(service_file=AUTH_FILE)
@@ -50,7 +52,7 @@ def __create_auth_file(filepath):
         json.dump(auth_dict, fp)
 
 
-def __get_yesterday_events_records(dataframe):
+def __get_events_records_by_date(dataframe, date):
     yesterday = date.today() - timedelta(1)
     last_events = dataframe.loc[dataframe['time'] > yesterday]
     last_events['time'] = last_events['time'].apply(str)
