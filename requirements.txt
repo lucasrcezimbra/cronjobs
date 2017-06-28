@@ -1,1 +1,2 @@
 -r sf-trello/requirements.txt
+-r nubank-spreadsheet/requirements.txt
