@@ -53,8 +53,7 @@ def __create_auth_file(filepath):
 
 
 def __get_events_records_by_date(dataframe, date):
-    yesterday = date.today() - timedelta(1)
-    last_events = dataframe.loc[dataframe['time'] > yesterday]
+    last_events = dataframe.loc[dataframe['time'] > date]
     last_events['time'] = last_events['time'].apply(str)
     return list(last_events.to_records(index=False))
 
