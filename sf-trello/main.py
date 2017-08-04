@@ -35,12 +35,11 @@ def main():
     cards = [list.list_cards() for list in used_lists]
     cards = list(itertools.chain.from_iterable(cards))
 
-    for key,value in alerts.items():
-        value['cards'] = [card.name
+    for name,alert in alerts.items():
+        alert['cards'] = [card.name
                           for card in cards
-                          if card.labels and card.labels[0].name == key]
+                          if card.labels and card.labels[0].name == name]
 
-    print('--- Sending e-mails ---')
     _send_email(alerts)
 
 def _send_email(alerts):
