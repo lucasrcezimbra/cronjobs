@@ -11,7 +11,7 @@ def main():
     MONTHS = ['','Jan','Fev','Mar','Abr','Maio','Jun','Jul','Ago','Set','Out','Nov','Dez']
     NUBANK_CPF = config('NUBANK_CPF')
     NUBANK_PASSWORD = config('NUBANK_PASSWORD')
-    SPREADSHEET = 'Gastos 2017'
+    SPREADSHEET = 'Gastos {}'.format(date.today().year)
     DATE = date.today() - timedelta(1)
     WORKSHEET = MONTHS[DATE.month]
     AUTH_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'service_creds.json')
