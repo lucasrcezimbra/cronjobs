@@ -1,0 +1,31 @@
+# logger
+EMAIL_LOGGER_HOST=localhost
+EMAIL_LOGGER_PORT=25
+EMAIL_LOGGER_FROM=lucas.cezimbra@gmail.com
+EMAIL_LOGGER_TO=lucas.cezimbra@gmail.com,
+EMAIL_LOGGER_SUBJECT=Error in cronjobs
+EMAIL_LOGGER_HOST_USER=
+EMAIL_LOGGER_HOST_PASSWORD=
+
+
+# nubank-spreadsheet
+NUBANK_CPF=12345678901
+NUBANK_PASSWORD=password
+# Create your Signed Credentials for Google Spreadsheet, read more in https://pygsheets.readthedocs.io/en/latest/authorizing.html#signed-credentials
+AUTH_TYPE=
+AUTH_PROJECT_ID=
+AUTH_PRIVATE_KEY_ID=
+AUTH_PRIVATE_KEY=
+AUTH_CLIENT_EMAIL=
+AUTH_CLIENT_ID=
+AUTH_AUTH_URI=
+AUTH_TOKEN_URI=
+AUTH_AUTH_PROVIDER_X509_CERT_URL=
+AUTH_CLIENT_X509_CERT_URL=
+
+
+# sf-trello
+TRELLO_API_KEY=YOUR_TRELLO_API_KEY
+TRELLO_API_SECRET=YOUR_TRELLO_API_SECRET
+TRELLO_TOKEN=YOUR_TRELLO_TOKEN
+URL=http://url-formail
