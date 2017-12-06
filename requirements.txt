@@ -1,2 +1,3 @@
 -r sf-trello/requirements.txt
 -r nubank-spreadsheet/requirements.txt
+python-decouple==3.1
