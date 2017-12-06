@@ -1,8 +1,12 @@
 import itertools
-import requests
 from datetime import date
+
+import requests
 from decouple import config
 from trello import TrelloClient
+
+from utils.log import logger
+
 
 def main():
     alerts = {
@@ -61,4 +65,7 @@ def _send_email(alerts):
         requests.post(URL, data=data)
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as e:
+        logger.exception(e)

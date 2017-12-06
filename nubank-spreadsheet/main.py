@@ -7,6 +7,9 @@ import pygsheets
 from decouple import config
 from pynubank import Nubank
 
+from utils.log import logger
+
+
 def main():
     MONTHS = ['','Jan','Fev','Mar','Abr','Maio','Jun','Jul','Ago','Set','Out','Nov','Dez']
     NUBANK_CPF = config('NUBANK_CPF')
@@ -51,7 +54,6 @@ def __create_auth_file(filepath):
     with open(filepath, 'w') as fp:
         json.dump(auth_dict, fp)
 
-
 def __get_events_records_by_date(dataframe, date):
     last_events = dataframe.loc[dataframe['time'] > date]
     last_events['time'] = last_events['time'].apply(str)
@@ -68,5 +70,9 @@ def __create_dataframe(nubank_events):
     df['amount'] = df['amount'].apply(int).apply(str).apply(lambda x: "-{},{}".format(x[0:-2],x[-2:]))
     return df
 
+
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as e:
+        logger.exception(e)
