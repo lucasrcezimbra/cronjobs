@@ -1,6 +1,7 @@
 import json
 import os
-from datetime import date, timedelta
+import sys
+from datetime import date, datetime, timedelta
 
 import pandas as pd
 import pygsheets
@@ -10,13 +11,14 @@ from pynubank import Nubank
 from utils.log import logger
 
 
-def main():
-    MONTHS = ['','Jan','Fev','Mar','Abr','Maio','Jun','Jul','Ago','Set','Out','Nov','Dez']
+def main(initial_date=None):
+    if not initial_date:
+        initial_date = date.today() - timedelta(1)
+    MONTHS = ['', 'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
     NUBANK_CPF = config('NUBANK_CPF')
     NUBANK_PASSWORD = config('NUBANK_PASSWORD')
     SPREADSHEET = 'Gastos {}'.format(date.today().year)
-    DATE = date.today() - timedelta(1)
-    WORKSHEET = MONTHS[DATE.month]
+    WORKSHEET = MONTHS[initial_date.month]
     AUTH_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'service_creds.json')
 
     if not os.path.exists(AUTH_FILE):
@@ -24,11 +26,11 @@ def main():
 
     print('--- Getting NuBank events ---')
     nubank = Nubank(NUBANK_CPF, NUBANK_PASSWORD)
-    nubank_events = nubank.get_account_statements()
+    nubank_events = nubank.get_card_statements()
 
     print('--- NuBank events to DataFrame ---')
     dataframe = __create_dataframe(nubank_events)
-    last_events = __get_events_records_by_date(dataframe, DATE)
+    last_events = __get_events_records_by_date(dataframe, initial_date)
 
     print('--- Authenticate in Google Spreadsheet ---')
     gc = pygsheets.authorize(service_file=AUTH_FILE)
@@ -37,6 +39,7 @@ def main():
     worksheet = gc.open(SPREADSHEET).worksheet_by_title(WORKSHEET)
     values = [list(r) for r in last_events]
     worksheet.insert_rows(1, number=len(values), values=values)
+
 
 def __create_auth_file(filepath):
     auth_dict = {
@@ -54,10 +57,12 @@ def __create_auth_file(filepath):
     with open(filepath, 'w') as fp:
         json.dump(auth_dict, fp)
 
+
 def __get_events_records_by_date(dataframe, date):
     last_events = dataframe.loc[dataframe['time'] > date]
     last_events['time'] = last_events['time'].apply(str)
     return list(last_events.to_records(index=False))
+
 
 def __create_dataframe(nubank_events):
     columns = ['time', 'title', 'description', 'nubank', 'shop', 'parcela', 'amount']
@@ -73,6 +78,10 @@ def __create_dataframe(nubank_events):
 
 if __name__ == '__main__':
     try:
-        main()
+        if len(sys.argv) > 1:
+            initial_date = datetime.strptime(sys.argv[1], '%Y-%m-%d').date()
+            main(initial_date)
+        else:
+            main()
     except Exception as e:
         logger.exception(e)
