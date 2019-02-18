@@ -65,7 +65,7 @@ def __get_events_records_by_date(dataframe, date):
 
 
 def __create_dataframe(nubank_events):
-    columns = ['time', 'title', 'description', 'nubank', 'shop', 'parcela', 'amount']
+    columns = ['time', 'title', 'description', 'nubank', 'shop', 'parcela', 'amount', 'reembolso', 'total']
     df = pd.DataFrame(nubank_events, columns=columns)
     df['time'] = pd.to_datetime(df['time'])
     df['title'] = df['title'].apply(str.capitalize)
@@ -73,6 +73,9 @@ def __create_dataframe(nubank_events):
     df['shop'] = df['description']
     df['parcela'] = ''
     df['amount'] = df['amount'].apply(int).apply(str).apply(lambda x: "-{},{}".format(x[0:-2],x[-2:]))
+    df['reembolso'] = None
+    df['total'] = df.index + 2
+    df['total'] = df['total'].apply(lambda i: '=G{}+H{}'.format(i, i))
     return df
 
 
