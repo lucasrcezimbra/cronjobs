@@ -65,17 +65,21 @@ def __get_events_records_by_date(dataframe, date):
 
 
 def __create_dataframe(nubank_events):
-    columns = ['time', 'title', 'description', 'nubank', 'shop', 'parcela', 'amount', 'reembolso', 'total']
+    columns = ['time', 'category', 'description', 'nubank', 'shop', 'shop2', 'parcela', 'amount', 'reembolso', 'total']
     df = pd.DataFrame(nubank_events, columns=columns)
     df['time'] = pd.to_datetime(df['time'])
-    df['title'] = df['title'].apply(str.capitalize)
+    df['category'] = df.index + 2
+    df['category'] = df['category'].apply(lambda i: '=VLOOKUP(F{};Categorias!H:I;2;FALSE)'.format(i))
     df['nubank'] = 'NuBank'
     df['shop'] = df['description']
+    df['shop2'] = df.index + 2
+    df['shop2'] = df['shop2'].apply(lambda i: '=VLOOKUP(E{};Categorias!E:F;2;FALSE)'.format(i))
+    df['description'] = None
     df['parcela'] = ''
     df['amount'] = df['amount'].apply(int).apply(str).apply(lambda x: "-{},{}".format(x[0:-2],x[-2:]))
     df['reembolso'] = None
     df['total'] = df.index + 2
-    df['total'] = df['total'].apply(lambda i: '=G{}+H{}'.format(i, i))
+    df['total'] = df['total'].apply(lambda i: '=H{}+I{}'.format(i, i))
     return df
 
 
