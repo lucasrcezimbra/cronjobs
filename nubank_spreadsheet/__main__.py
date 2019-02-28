@@ -91,5 +91,4 @@ if __name__ == '__main__':
         else:
             main()
     except Exception as e:
-        import ipdb; ipdb.set_trace()
         logger.exception(e)
