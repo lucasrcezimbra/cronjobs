@@ -14,11 +14,14 @@ from utils.log import logger
 def main(initial_date=None):
     if not initial_date:
         initial_date = date.today() - timedelta(1)
+    initial_datetime = datetime.combine(initial_date, datetime.min.time())
+    initial_datetime = initial_datetime.astimezone()
+
     MONTHS = ['', 'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
     NUBANK_CPF = config('NUBANK_CPF')
     NUBANK_PASSWORD = config('NUBANK_PASSWORD')
     SPREADSHEET = 'Gastos {}'.format(date.today().year)
-    WORKSHEET = MONTHS[initial_date.month]
+    WORKSHEET = MONTHS[initial_datetime.month]
     AUTH_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'service_creds.json')
 
     if not os.path.exists(AUTH_FILE):
@@ -30,7 +33,7 @@ def main(initial_date=None):
 
     print('--- NuBank events to DataFrame ---')
     dataframe = __create_dataframe(nubank_events)
-    last_events = __get_events_records_by_date(dataframe, initial_date)
+    last_events = __get_events_records_by_date(dataframe, initial_datetime)
 
     print('--- Authenticate in Google Spreadsheet ---')
     gc = pygsheets.authorize(service_file=AUTH_FILE)
