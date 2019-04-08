@@ -1,2 +1,3 @@
 -r nubank_spreadsheet/requirements.txt
+-r senior_spreadsheet/requirements.txt
 python-decouple==3.1
