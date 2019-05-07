@@ -22,7 +22,7 @@ def main(initial_date=None):
     WORKSHEET = MONTHS[initial_datetime.month]
 
     print('--- Getting NuBank events ---')
-    nubank = Nubank(NUBANK_CPF, NUBANK_PASSWORD, True)
+    nubank = Nubank(NUBANK_CPF, NUBANK_PASSWORD, allow_qr_code_auth=True)
     nubank_events = nubank.get_card_statements()
 
     print('--- NuBank events to DataFrame ---')
