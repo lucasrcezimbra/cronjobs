@@ -96,8 +96,9 @@ def __create_debit_dataframe(events):
     df.fillna('', inplace=True)
     df['shop'] = df["destinationAccount"] + df["originAccount"]
     df['parcela'] = None
-    df.loc[df['__typename'] == 'TransferOutEvent', 'amount'] = df['amount'].apply(lambda x: x * -1)
     df.loc[df['__typename'] == 'BarcodePaymentEvent', 'amount'] = df['amount'].apply(lambda x: x * -1)
+    df.loc[df['__typename'] == 'DebitPurchaseEvent', 'amount'] = df['amount'].apply(lambda x: x * -1)
+    df.loc[df['__typename'] == 'TransferOutEvent', 'amount'] = df['amount'].apply(lambda x: x * -1)
     del df['destinationAccount']
     del df['originAccount']
     del df['__typename']
