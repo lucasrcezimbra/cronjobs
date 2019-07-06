@@ -43,7 +43,7 @@ def __create_dataframe(credit_events, debit_events, date):
     df = pd.concat((credit_dataframe, debit_dataframe))
 
     df['time'] = df['time'].apply(lambda x: x.date())
-    df = df.loc[df['time'] > date]
+    df = df.loc[df['time'] >= date]
     df.sort_values('time', inplace=True)
     df['time'] = df['time'].apply(str)
 

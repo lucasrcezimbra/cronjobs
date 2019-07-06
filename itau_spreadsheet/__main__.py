@@ -42,7 +42,7 @@ def __create_dataframe(events, date):
     df = __create_account_dataframe(events)
 
     df['date'] = df['date'].apply(lambda x: x.date())
-    df = df.loc[df['date'] > date]
+    df = df.loc[df['date'] >= date]
     df.sort_values('date', inplace=True)
     df['date'] = df['date'].apply(str)
 
