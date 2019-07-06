@@ -46,6 +46,8 @@ def __create_dataframe(events, date):
     df.sort_values('date', inplace=True)
     df['date'] = df['date'].apply(str)
 
+    df = df.loc[df['description'] != 'SDO CTA/APL AUTOMATICAS']
+
     df.reset_index(inplace=True, drop=True)
 
     df['category'] = df.index + 2
@@ -75,14 +77,14 @@ def __create_account_dataframe(events):
     }
     df = pandas.DataFrame(events, columns=columns)
     df.rename(columns=columns_mapper, inplace=True)
-    df['date'] = pandas.to_datetime(df['date'])
+    df['date'] = pandas.to_datetime(df['date'], format='%d/%m/%Y')
     df['category'] = None
     df['itau'] = 'Itaú'
     df['location'] = df['description']
     df['location2'] = None
     df['parcela'] = None
-    df['amount'] = df['amount'].apply(lambda x: x.replace('.', ''))
-    df['amount'] = df['amount'].apply(lambda x: x.replace(',', '.'))
+    df['amount'] = df['amount'].apply(lambda x: x.replace('.', '') if x else 0)
+    df['amount'] = df['amount'].apply(lambda x: x.replace(',', '.') if x else 0)
     df['amount'] = df['amount'].apply(float)
     df.loc[df['ePositivo'] == False, 'amount'] = df['amount'].apply(lambda x: x * -1)
     df['reembolso'] = None
