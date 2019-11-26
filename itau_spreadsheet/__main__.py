@@ -21,7 +21,7 @@ def main(initial_date=None):
     AGENCY = config('ITAU_AGENCY')
     ACCOUNT = config('ITAU_ACCOUNT')
     ACCOUNT_DIGIT = config('ITAU_ACCOUNT_DIGIT')
-    PASSWORD = config('ITAU_PASSWORD')
+    PASSWORD = input('ITAU_PASSWORD')
     SPREADSHEET = 'Gastos {}'.format(date.today().year)
     WORKSHEET = MONTHS[initial_date.month]
 
