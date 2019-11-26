@@ -1,2 +1,0 @@
-pygsheets==2.0.1
-senior-hcm==0.0.2
