@@ -19,7 +19,7 @@ def main(initial_date=None):
     ]
     NUBANK_CPF = input('NUBANK_CPF')
     NUBANK_PASSWORD = input('NUBANK_PASSWORD')
-    SPREADSHEET = 'Gastos {}'.format(date.today().year)
+    SPREADSHEET = 'Gastos {}'.format(initial_date.year)
     WORKSHEET = MONTHS[initial_date.month]
 
     print('--- Getting NuBank events ---')

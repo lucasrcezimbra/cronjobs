@@ -22,7 +22,7 @@ def main(initial_date=None):
     ACCOUNT = config('ITAU_ACCOUNT')
     ACCOUNT_DIGIT = config('ITAU_ACCOUNT_DIGIT')
     PASSWORD = input('ITAU_PASSWORD')
-    SPREADSHEET = 'Gastos {}'.format(date.today().year)
+    SPREADSHEET = 'Gastos {}'.format(initial_date.year)
     WORKSHEET = MONTHS[initial_date.month]
 
     print('--- Getting Itaú events ---')
