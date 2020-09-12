@@ -50,7 +50,7 @@ def __create_dataframe(credit_events, debit_events, date):
 
     df['category'] = df.index + 2
     df['category'] = df['category'].apply(
-        lambda i: '=VLOOKUP(F{};Categorias!H:I;2;FALSE)'.format(i))
+        lambda i: '=VLOOKUP(F{};Categorias!F:G;2;FALSE)'.format(i))
 
     df['shop2'] = df.index + 2
     df['shop2'] = df['shop2'].apply(

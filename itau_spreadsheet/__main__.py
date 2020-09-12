@@ -52,7 +52,7 @@ def __create_dataframe(events, date):
 
     df['category'] = df.index + 2
     df['category'] = df['category'].apply(
-        lambda i: '=VLOOKUP(F{};Categorias!H:I;2;FALSE)'.format(i))
+        lambda i: '=VLOOKUP(F{};Categorias!F:G;2;FALSE)'.format(i))
 
     df['location2'] = df.index + 2
     df['location2'] = df['location2'].apply(
