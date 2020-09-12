@@ -1,11 +1,12 @@
 import sys
 from datetime import date, datetime, timedelta
+from getpass import getpass
 
 import pandas as pd
 from pynubank import Nubank
 
-from utils.log import logger
 from spreadsheets import insert
+from utils.log import logger
 
 
 def main(initial_date=None):
@@ -17,8 +18,8 @@ def main(initial_date=None):
         'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun',
         'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
     ]
-    NUBANK_CPF = input('NUBANK_CPF')
-    NUBANK_PASSWORD = input('NUBANK_PASSWORD')
+    NUBANK_CPF = input('CPF: ')
+    NUBANK_PASSWORD = getpass('Senha do Nubank: ')
     SPREADSHEET = 'Gastos {}'.format(initial_date.year)
     WORKSHEET = MONTHS[initial_date.month]
 

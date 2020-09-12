@@ -1,12 +1,13 @@
 import sys
 from datetime import date, datetime, timedelta
+from getpass import getpass
 
 import pandas
 from decouple import config
 from pyitau import Itau
 
-from utils.log import logger
 from spreadsheets import insert
+from utils.log import logger
 
 
 def main(initial_date=None):
@@ -21,7 +22,7 @@ def main(initial_date=None):
     AGENCY = config('ITAU_AGENCY')
     ACCOUNT = config('ITAU_ACCOUNT')
     ACCOUNT_DIGIT = config('ITAU_ACCOUNT_DIGIT')
-    PASSWORD = input('ITAU_PASSWORD')
+    PASSWORD = getpass('Senha do Itaú: ')
     SPREADSHEET = 'Gastos {}'.format(initial_date.year)
     WORKSHEET = MONTHS[initial_date.month]
 
