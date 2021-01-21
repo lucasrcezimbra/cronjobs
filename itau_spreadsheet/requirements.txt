@@ -1,4 +1,4 @@
 oauth2client==4.1.3
-pandas==1.1.4
+pandas==1.2.1
 pygsheets==2.0.3.1
 pyitau==0.0.5
