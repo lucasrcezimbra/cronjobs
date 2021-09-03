@@ -34,13 +34,24 @@ def debit_events():
             'amount': 126.88,
             'destinationAccount': {'name': 'Walter White'},
         },
+        {
+            'id': uuid4(),
+            '__typename': 'PixTransferOutEvent',
+            'title': 'Transferência enviada',
+            'detail': 'Saul Goodman\nR$\xa0600,00',
+            'postDate': date_.strftime('%Y-%m-%d'),
+            'amount': 600.0,
+        },
     ]
+
+
+def test_debit_lenght(debit_events):
+    dataframe = __create_dataframe([], debit_events, date_)
+    assert len(dataframe) == len(debit_events)
 
 
 def test_debit_transfer_in(debit_events):
     dataframe = __create_dataframe([], debit_events, date_)
-
-    assert len(dataframe) == len(debit_events)
 
     records = dataframe.to_records(index=False)
     event = debit_events[TRANSFER_IN_EVENT_INDEX]
@@ -49,7 +60,7 @@ def test_debit_transfer_in(debit_events):
 
     assert result[0] == event['postDate']
     assert result[1] == f'=VLOOKUP(F{row};Categorias!F:G;2;FALSE)'
-    assert result[2] == 'Transferência recebida'
+    assert result[2] == event['title']
     assert result[3] == 'NuConta'
     assert result[4] == event['originAccount']['name']
     assert result[5] == f'=VLOOKUP(E{row};Categorias!E:F;2;FALSE)'
@@ -62,8 +73,6 @@ def test_debit_transfer_in(debit_events):
 def test_debit_transfer_out(debit_events):
     dataframe = __create_dataframe([], debit_events, date_)
 
-    assert len(dataframe) == len(debit_events)
-
     records = dataframe.to_records(index=False)
     event = debit_events[TRANSFER_OUT_EVENT_INDEX]
     result = records[TRANSFER_OUT_EVENT_INDEX]
@@ -71,9 +80,29 @@ def test_debit_transfer_out(debit_events):
 
     assert result[0] == event['postDate']
     assert result[1] == f'=VLOOKUP(F{row};Categorias!F:G;2;FALSE)'
-    assert result[2] == 'Transferência enviada'
+    assert result[2] == event['title']
     assert result[3] == 'NuConta'
     assert result[4] == event['destinationAccount']['name']
+    assert result[5] == f'=VLOOKUP(E{row};Categorias!E:F;2;FALSE)'
+    assert result[6] is None
+    assert result[7] == (event['amount'] * -1)
+    assert result[8] == ''
+    assert result[9] == f'=H{row}+I{row}'
+
+
+def test_debit_pix_transfer_out(debit_events):
+    dataframe = __create_dataframe([], debit_events, date_)
+
+    records = dataframe.to_records(index=False)
+    event = debit_events[PIX_OUT_EVENT_INDEX]
+    result = records[PIX_OUT_EVENT_INDEX]
+    row = PIX_OUT_EVENT_INDEX + 2
+
+    assert result[0] == event['postDate']
+    assert result[1] == f'=VLOOKUP(F{row};Categorias!F:G;2;FALSE)'
+    assert result[2] == event['title']
+    assert result[3] == 'NuConta'
+    assert result[4] == event['detail']
     assert result[5] == f'=VLOOKUP(E{row};Categorias!E:F;2;FALSE)'
     assert result[6] is None
     assert result[7] == (event['amount'] * -1)

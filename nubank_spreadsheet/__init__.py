@@ -86,7 +86,7 @@ def __create_credit_dataframe(events):
 def __create_debit_dataframe(events):
     columns = [
         '__typename', 'postDate', 'category', 'title', 'nubank', 'shop',
-        'shop2', 'destinationAccount', 'originAccount', 'parcela', 'amount',
+        'shop2', 'destinationAccount', 'originAccount', 'detail', 'parcela', 'amount',
         'reembolso', 'total'
     ]
     df = pd.DataFrame(events, columns=columns)
@@ -98,7 +98,10 @@ def __create_debit_dataframe(events):
     df['destinationAccount'] = df['destinationAccount'].apply(pd.Series)['name']
     df['originAccount'] = df['originAccount'].apply(pd.Series)['name']
     df.fillna('', inplace=True)
+
     df['shop'] = df["destinationAccount"] + df["originAccount"]
+    df.loc[df['shop'] == '', 'shop'] = df['detail']
+
     df['parcela'] = None
     df.loc[df['__typename'] == 'BarcodePaymentEvent', 'amount'] = (
         df['amount'].apply(lambda x: x * -1)
@@ -109,7 +112,11 @@ def __create_debit_dataframe(events):
     df.loc[df['__typename'] == 'TransferOutEvent', 'amount'] = (
         df['amount'].apply(lambda x: x * -1)
     )
+    df.loc[df['__typename'] == 'PixTransferOutEvent', 'amount'] = (
+        df['amount'].apply(lambda x: x * -1)
+    )
     del df['destinationAccount']
     del df['originAccount']
+    del df['detail']
     del df['__typename']
     return df
