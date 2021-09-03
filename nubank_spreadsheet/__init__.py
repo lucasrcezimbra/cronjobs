@@ -16,8 +16,8 @@ def main(initial_date=None):
         'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun',
         'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
     ]
-    NUBANK_CPF = input('CPF: ')
-    NUBANK_PASSWORD = getpass('Senha do Nubank: ')
+    NUBANK_CPF = input('CPF: ')  # nosec
+    NUBANK_PASSWORD = getpass('Senha do Nubank: ')  # nosec
     SPREADSHEET = 'Gastos {}'.format(initial_date.year)
     WORKSHEET = MONTHS[initial_date.month]
 
@@ -26,7 +26,7 @@ def main(initial_date=None):
 
     uuid, qr_code = nubank.get_qr_code()
     qr_code.print_ascii(invert=True)
-    input('Após escanear o QRCode pressione enter para continuar')
+    input('Após escanear o QRCode pressione enter para continuar')  # nosec
     nubank.authenticate_with_qr_code(NUBANK_CPF, NUBANK_PASSWORD, uuid)
 
     credit_events = nubank.get_card_statements()
@@ -100,9 +100,15 @@ def __create_debit_dataframe(events):
     df.fillna('', inplace=True)
     df['shop'] = df["destinationAccount"] + df["originAccount"]
     df['parcela'] = None
-    df.loc[df['__typename'] == 'BarcodePaymentEvent', 'amount'] = df['amount'].apply(lambda x: x * -1)
-    df.loc[df['__typename'] == 'DebitPurchaseEvent', 'amount'] = df['amount'].apply(lambda x: x * -1)
-    df.loc[df['__typename'] == 'TransferOutEvent', 'amount'] = df['amount'].apply(lambda x: x * -1)
+    df.loc[df['__typename'] == 'BarcodePaymentEvent', 'amount'] = (
+        df['amount'].apply(lambda x: x * -1)
+    )
+    df.loc[df['__typename'] == 'DebitPurchaseEvent', 'amount'] = (
+        df['amount'].apply(lambda x: x * -1)
+    )
+    df.loc[df['__typename'] == 'TransferOutEvent', 'amount'] = (
+        df['amount'].apply(lambda x: x * -1)
+    )
     del df['destinationAccount']
     del df['originAccount']
     del df['__typename']
