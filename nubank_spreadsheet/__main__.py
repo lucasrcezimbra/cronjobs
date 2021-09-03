@@ -24,7 +24,13 @@ def main(initial_date=None):
     WORKSHEET = MONTHS[initial_date.month]
 
     print('--- Getting NuBank events ---')
-    nubank = Nubank(NUBANK_CPF, NUBANK_PASSWORD, allow_qr_code_auth=True)
+    nubank = Nubank()
+
+    uuid, qr_code = nubank.get_qr_code()
+    qr_code.print_ascii(invert=True)
+    input('Após escanear o QRCode pressione enter para continuar')
+    nubank.authenticate_with_qr_code(NUBANK_CPF, NUBANK_PASSWORD, uuid)
+
     credit_events = nubank.get_card_statements()
     debit_events = nubank.get_account_statements()
 
