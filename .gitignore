@@ -105,3 +105,4 @@ ENV/
 */service_creds.json
 
 *.ipynb
+cert.p12

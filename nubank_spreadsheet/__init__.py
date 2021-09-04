@@ -21,14 +21,11 @@ def main(initial_date=None):
     SPREADSHEET = 'Gastos {}'.format(initial_date.year)
     WORKSHEET = MONTHS[initial_date.month]
 
-    print('--- Getting NuBank events ---')
+    print('--- Authenticating ---')
     nubank = Nubank()
+    nubank.authenticate_with_cert(NUBANK_CPF, NUBANK_PASSWORD, 'cert.p12')
 
-    uuid, qr_code = nubank.get_qr_code()
-    qr_code.print_ascii(invert=True)
-    input('Após escanear o QRCode pressione enter para continuar')  # nosec
-    nubank.authenticate_with_qr_code(NUBANK_CPF, NUBANK_PASSWORD, uuid)
-
+    print('--- Getting NuBank events ---')
     credit_events = nubank.get_card_statements()
     debit_events = nubank.get_account_statements()
 
