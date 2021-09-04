@@ -86,6 +86,9 @@ def __create_credit_dataframe(events):
 
 
 def __create_debit_dataframe(events):
+    if not events:
+        return
+
     columns = [
         '__typename', 'postDate', 'category', 'title', 'nubank', 'shop',
         'shop2', 'destinationAccount', 'originAccount', 'detail', 'parcela', 'amount',
