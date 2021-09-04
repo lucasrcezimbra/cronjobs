@@ -30,11 +30,16 @@ def main(initial_date=None):
     debit_events = nubank.get_account_statements()
 
     print('--- NuBank events to DataFrame ---')
-    dataframe = __create_dataframe(credit_events, debit_events, initial_date)
-    last_events = list(dataframe.to_records(index=False))
+    rows = get_rows(credit_events, debit_events, initial_date)
 
-    values = [list(r) for r in last_events]
-    insert(SPREADSHEET, WORKSHEET, values)
+    print('--- Inserting in spreadsheet ---')
+    insert(SPREADSHEET, WORKSHEET, rows)
+
+
+def get_rows(credit_events, debit_events, date):
+    dataframe = __create_dataframe(credit_events, debit_events, date)
+    rows = list(dataframe.to_records(index=False))
+    return [list(r) for r in rows]
 
 
 def __create_dataframe(credit_events, debit_events, date):

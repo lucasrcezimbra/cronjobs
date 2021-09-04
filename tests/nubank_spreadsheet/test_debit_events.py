@@ -3,7 +3,7 @@ from uuid import uuid4
 
 import pytest
 
-from nubank_spreadsheet import __create_dataframe
+from nubank_spreadsheet import get_rows
 
 date_ = date(2021, 8, 25)
 
@@ -45,66 +45,69 @@ def debit_events():
     ]
 
 
-def test_debit_lenght(debit_events):
-    dataframe = __create_dataframe([], debit_events, date_)
-    assert len(dataframe) == len(debit_events)
+def test_lenght(debit_events):
+    rows = get_rows([], debit_events, date_)
+    assert len(rows) == len(debit_events)
 
 
 def test_debit_transfer_in(debit_events):
-    dataframe = __create_dataframe([], debit_events, date_)
+    rows = get_rows([], debit_events, date_)
 
-    records = dataframe.to_records(index=False)
     event = debit_events[TRANSFER_IN_EVENT_INDEX]
-    result = records[TRANSFER_IN_EVENT_INDEX]
-    row = TRANSFER_IN_EVENT_INDEX + 2
+    rows = rows[TRANSFER_IN_EVENT_INDEX]
+    row_index = TRANSFER_IN_EVENT_INDEX + 2
 
-    assert result[0] == event['postDate']
-    assert result[1] == f'=VLOOKUP(F{row};Categorias!F:G;2;FALSE)'
-    assert result[2] == event['title']
-    assert result[3] == 'NuConta'
-    assert result[4] == event['originAccount']['name']
-    assert result[5] == f'=VLOOKUP(E{row};Categorias!E:F;2;FALSE)'
-    assert result[6] is None
-    assert result[7] == event['amount']
-    assert result[8] == ''
-    assert result[9] == f'=H{row}+I{row}'
+    assert rows == [
+        event['postDate'],
+        f'=VLOOKUP(F{row_index};Categorias!F:G;2;FALSE)',
+        event['title'],
+        'NuConta',
+        event['originAccount']['name'],
+        f'=VLOOKUP(E{row_index};Categorias!E:F;2;FALSE)',
+        None,
+        event['amount'],
+        '',
+        f'=H{row_index}+I{row_index}',
+    ]
 
 
 def test_debit_transfer_out(debit_events):
-    dataframe = __create_dataframe([], debit_events, date_)
+    rows = get_rows([], debit_events, date_)
 
-    records = dataframe.to_records(index=False)
     event = debit_events[TRANSFER_OUT_EVENT_INDEX]
-    result = records[TRANSFER_OUT_EVENT_INDEX]
-    row = TRANSFER_OUT_EVENT_INDEX + 2
+    row = rows[TRANSFER_OUT_EVENT_INDEX]
+    row_index = TRANSFER_OUT_EVENT_INDEX + 2
 
-    assert result[0] == event['postDate']
-    assert result[1] == f'=VLOOKUP(F{row};Categorias!F:G;2;FALSE)'
-    assert result[2] == event['title']
-    assert result[3] == 'NuConta'
-    assert result[4] == event['destinationAccount']['name']
-    assert result[5] == f'=VLOOKUP(E{row};Categorias!E:F;2;FALSE)'
-    assert result[6] is None
-    assert result[7] == (event['amount'] * -1)
-    assert result[8] == ''
-    assert result[9] == f'=H{row}+I{row}'
+    assert row == [
+        event['postDate'],
+        f'=VLOOKUP(F{row_index};Categorias!F:G;2;FALSE)',
+        event['title'],
+        'NuConta',
+        event['destinationAccount']['name'],
+        f'=VLOOKUP(E{row_index};Categorias!E:F;2;FALSE)',
+        None,
+        (event['amount'] * -1),
+        '',
+        f'=H{row_index}+I{row_index}',
+    ]
 
 
 def test_debit_pix_transfer_out(debit_events):
-    dataframe = __create_dataframe([], debit_events, date_)
+    rows = get_rows([], debit_events, date_)
 
-    records = dataframe.to_records(index=False)
     event = debit_events[PIX_OUT_EVENT_INDEX]
-    result = records[PIX_OUT_EVENT_INDEX]
-    row = PIX_OUT_EVENT_INDEX + 2
+    row = rows[PIX_OUT_EVENT_INDEX]
+    row_index = PIX_OUT_EVENT_INDEX + 2
 
-    assert result[0] == event['postDate']
-    assert result[1] == f'=VLOOKUP(F{row};Categorias!F:G;2;FALSE)'
-    assert result[2] == event['title']
-    assert result[3] == 'NuConta'
-    assert result[4] == event['detail']
-    assert result[5] == f'=VLOOKUP(E{row};Categorias!E:F;2;FALSE)'
-    assert result[6] is None
-    assert result[7] == (event['amount'] * -1)
-    assert result[8] == ''
-    assert result[9] == f'=H{row}+I{row}'
+    assert row == [
+        event['postDate'],
+        f'=VLOOKUP(F{row_index};Categorias!F:G;2;FALSE)',
+        event['title'],
+        'NuConta',
+        event['detail'],
+        f'=VLOOKUP(E{row_index};Categorias!E:F;2;FALSE)',
+        None,
+        (event['amount'] * -1),
+        '',
+        f'=H{row_index}+I{row_index}',
+    ]
