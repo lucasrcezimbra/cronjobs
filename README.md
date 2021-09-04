@@ -1,3 +1,3 @@
 # Cronjobs 
 
-[![Updates](https://pyup.io/repos/github/Lrcezimbra/cronjobs/shield.svg)](https://pyup.io/repos/github/Lrcezimbra/cronjobs/)
+[![Updates](https://pyup.io/repos/github/lucasrcezimbra/cronjobs/shield.svg)](https://pyup.io/repos/github/lucasrcezimbra/cronjobs/)
