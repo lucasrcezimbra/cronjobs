@@ -1,3 +1,3 @@
--r nubank_spreadsheet/requirements.txt
 -r itau_spreadsheet/requirements.txt
+-r nubank_spreadsheet/requirements.txt
 python-decouple==3.4
