@@ -2,7 +2,7 @@ import logging
 from logging import StreamHandler
 from logging.handlers import SMTPHandler
 
-from decouple import config, Csv
+from decouple import Csv, config
 
 
 def get_logger():
