@@ -1,11 +1,4 @@
-# logger
-EMAIL_LOGGER_HOST=localhost
-EMAIL_LOGGER_PORT=25
-EMAIL_LOGGER_FROM=lucas.cezimbra@gmail.com
-EMAIL_LOGGER_TO=lucas.cezimbra@gmail.com,
-EMAIL_LOGGER_SUBJECT=Error in cronjobs
-EMAIL_LOGGER_HOST_USER=
-EMAIL_LOGGER_HOST_PASSWORD=
+# TODO: remove unused variables
 
 
 # nubank-spreadsheet
@@ -30,4 +23,3 @@ AUTH_CLIENT_X509_CERT_URL=
 ITAU_AGENCY=0000
 ITAU_ACCOUNT=00000
 ITAU_ACCOUNT_DIGIT=0
-ITAU_PASSWORD=000000

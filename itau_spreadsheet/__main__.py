@@ -7,7 +7,6 @@ from decouple import config
 from pyitau import Itau
 
 from spreadsheets import insert
-from utils.log import logger
 
 
 def main(initial_date=None):
@@ -95,11 +94,8 @@ def __create_account_dataframe(events):
 
 
 if __name__ == '__main__':
-    try:
-        if len(sys.argv) > 1:
-            initial_date = datetime.strptime(sys.argv[1], '%Y-%m-%d').date()
-            main(initial_date)
-        else:
-            main()
-    except Exception as e:
-        logger.exception(e)
+    if len(sys.argv) > 1:
+        initial_date = datetime.strptime(sys.argv[1], '%Y-%m-%d').date()
+        main(initial_date)
+    else:
+        main()
