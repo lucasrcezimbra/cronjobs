@@ -1,7 +1,7 @@
 from datetime import date, timedelta
-from getpass import getpass
 
 import pandas as pd
+from decouple import config
 from pynubank import Nubank
 
 from spreadsheets import insert
@@ -16,8 +16,8 @@ def main(initial_date=None):
         'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun',
         'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
     ]
-    NUBANK_CPF = input('CPF: ')  # nosec
-    NUBANK_PASSWORD = getpass('Senha do Nubank: ')  # nosec
+    NUBANK_CPF = config('NUBANK_CPF')
+    NUBANK_PASSWORD = config('NUBANK_PASSWORD')
     SPREADSHEET = 'Gastos {}'.format(initial_date.year)
     WORKSHEET = MONTHS[initial_date.month]
 
