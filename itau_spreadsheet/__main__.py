@@ -6,7 +6,10 @@ import pandas
 from decouple import config
 from pyitau import Itau
 
+from logs import get_logger
 from spreadsheets import insert
+
+logger = get_logger(__name__)
 
 
 def main(initial_date=None):
@@ -25,12 +28,12 @@ def main(initial_date=None):
     SPREADSHEET = 'Gastos {}'.format(initial_date.year)
     WORKSHEET = MONTHS[initial_date.month]
 
-    print('--- Getting Itaú events ---')
+    logger.info('Getting Itaú events')
     itau = Itau(AGENCY, ACCOUNT, ACCOUNT_DIGIT, PASSWORD)
     itau.authenticate()
     events = itau.get_statements()['lancamentos']
 
-    print('--- Itaú events to DataFrame ---')
+    logger.info('Itaú events to DataFrame')
     dataframe = __create_dataframe(events, initial_date)
     last_events = list(dataframe.to_records(index=False))
 

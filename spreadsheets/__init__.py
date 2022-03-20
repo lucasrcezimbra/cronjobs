@@ -4,6 +4,10 @@ import os
 import pygsheets
 from decouple import config
 
+from logs import get_logger
+
+logger = get_logger(__name__)
+
 
 def __create_auth_file(filepath):
     auth_dict = {
@@ -29,9 +33,9 @@ def insert(spreadsheet, worksheet, values):
     if not os.path.exists(AUTH_FILE):
         __create_auth_file(AUTH_FILE)
 
-    print('--- Authenticate in Google Spreadsheet ---')
+    logger.info('Authenticate in Google Spreadsheet')
     gc = pygsheets.authorize(service_file=AUTH_FILE)
 
-    print('--- Saving {} values to Spreadsheet ---'.format(len(values)))
+    logger.info('Saving {} values to Spreadsheet'.format(len(values)))
     worksheet = gc.open(spreadsheet).worksheet_by_title(worksheet)
     worksheet.insert_rows(1, number=len(values), values=values)

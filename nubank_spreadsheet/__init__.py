@@ -4,7 +4,10 @@ import pandas as pd
 from decouple import config
 from pynubank import Nubank
 
+from logs import get_logger
 from spreadsheets import insert
+
+logger = get_logger(__name__)
 
 
 def main(initial_date=None):
@@ -21,15 +24,15 @@ def main(initial_date=None):
     SPREADSHEET = 'Gastos {}'.format(initial_date.year)
     WORKSHEET = MONTHS[initial_date.month]
 
-    print('--- Authenticating ---')
+    logger.info('Authenticating')
     nubank = Nubank()
     nubank.authenticate_with_cert(NUBANK_CPF, NUBANK_PASSWORD, 'cert.p12')
 
-    print('--- Getting NuBank events ---')
+    logger.info('Getting NuBank events')
     credit_events = nubank.get_card_statements()
     debit_events = nubank.get_account_statements()
 
-    print('--- NuBank events to DataFrame ---')
+    logger.info('NuBank events to DataFrame')
     dataframe = __create_dataframe(credit_events, debit_events, initial_date)
     last_events = list(dataframe.to_records(index=False))
 
