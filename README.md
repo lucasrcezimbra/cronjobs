@@ -22,6 +22,14 @@ pynubank  # to get a certificate
 
 ## Usage
 
+### agilize
+
+```bash
+source .venv/bin/activate
+python -m agilize_prolabore 2021-01-01
+```
+
+
 ### nubank_spreadsheet
 
 ```bash
