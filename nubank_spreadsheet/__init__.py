@@ -55,25 +55,26 @@ def __create_dataframe(credit_events, debit_events, date):
 
     df['category'] = df.index + 2
     df['category'] = df['category'].apply(
-        lambda i: '=VLOOKUP(F{};Categorias!F:G;2;FALSE)'.format(i))
+        lambda i: '=VLOOKUP(G{};Categorias!F:G;2;FALSE)'.format(i))
 
     df['shop2'] = df.index + 2
     df['shop2'] = df['shop2'].apply(
-        lambda i: '=VLOOKUP(E{};Categorias!E:F;2;FALSE)'.format(i))
+        lambda i: '=VLOOKUP(F{};Categorias!E:F;2;FALSE)'.format(i))
 
     df['total'] = df.index + 2
-    df['total'] = df['total'].apply(lambda i: '=H{}+I{}'.format(i, i))
+    df['total'] = df['total'].apply(lambda i: '=I{}+J{}'.format(i, i))
 
     return df
 
 
 def __create_credit_dataframe(events):
     columns = [
-        'time', 'category', 'description', 'nubank', 'shop', 'shop2',
+        'time', 'category', 'recurrent', 'description', 'nubank', 'shop', 'shop2',
         'parcela', 'amount', 'reembolso', 'total',
     ]
     df = pd.DataFrame(events, columns=columns)
     df['time'] = pd.to_datetime(df['time'])
+    df['recurrent'] = None
     df['nubank'] = 'NuBank'
     df['shop'] = df['description']
     df['description'] = None
@@ -85,7 +86,7 @@ def __create_credit_dataframe(events):
 
 def __create_debit_dataframe(events):
     columns = [
-        '__typename', 'postDate', 'category', 'title', 'nubank', 'shop',
+        '__typename', 'postDate', 'category', 'recurrent', 'title', 'nubank', 'shop',
         'shop2', 'destinationAccount', 'originAccount', 'detail', 'parcela', 'amount',
         'reembolso', 'total'
     ]
@@ -94,6 +95,7 @@ def __create_debit_dataframe(events):
               inplace=True)
     df['time'] = pd.to_datetime(df['time'])
     df['category'] = None
+    df['recurrent'] = None
     df['nubank'] = 'NuConta'
     df['destinationAccount'] = df['destinationAccount'].apply(pd.Series)['name']
     df['originAccount'] = df['originAccount'].apply(pd.Series)['name']
