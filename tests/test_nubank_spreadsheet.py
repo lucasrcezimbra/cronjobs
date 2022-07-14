@@ -59,15 +59,16 @@ def test_debit_transfer_in(debit_events):
     row = TRANSFER_IN_EVENT_INDEX + 2
 
     assert result[0] == event['postDate']
-    assert result[1] == f'=VLOOKUP(F{row};Categorias!F:G;2;FALSE)'
-    assert result[2] == event['title']
-    assert result[3] == 'NuConta'
-    assert result[4] == event['originAccount']['name']
-    assert result[5] == f'=VLOOKUP(E{row};Categorias!E:F;2;FALSE)'
-    assert result[6] is None
-    assert result[7] == event['amount']
-    assert result[8] == ''
-    assert result[9] == f'=H{row}+I{row}'
+    assert result[1] == f'=VLOOKUP(G{row};Categorias!F:G;2;FALSE)'
+    assert result[2] == ''
+    assert result[3] == event['title']
+    assert result[4] == 'NuConta'
+    assert result[5] == event['originAccount']['name']
+    assert result[6] == f'=VLOOKUP(F{row};Categorias!E:F;2;FALSE)'
+    assert result[7] is None
+    assert result[8] == event['amount']
+    assert result[9] == ''
+    assert result[10] == f'=I{row}+J{row}'
 
 
 def test_debit_transfer_out(debit_events):
@@ -79,15 +80,16 @@ def test_debit_transfer_out(debit_events):
     row = TRANSFER_OUT_EVENT_INDEX + 2
 
     assert result[0] == event['postDate']
-    assert result[1] == f'=VLOOKUP(F{row};Categorias!F:G;2;FALSE)'
-    assert result[2] == event['title']
-    assert result[3] == 'NuConta'
-    assert result[4] == event['destinationAccount']['name']
-    assert result[5] == f'=VLOOKUP(E{row};Categorias!E:F;2;FALSE)'
-    assert result[6] is None
-    assert result[7] == (event['amount'] * -1)
-    assert result[8] == ''
-    assert result[9] == f'=H{row}+I{row}'
+    assert result[1] == f'=VLOOKUP(G{row};Categorias!F:G;2;FALSE)'
+    assert result[2] == ''
+    assert result[3] == event['title']
+    assert result[4] == 'NuConta'
+    assert result[5] == event['destinationAccount']['name']
+    assert result[6] == f'=VLOOKUP(F{row};Categorias!E:F;2;FALSE)'
+    assert result[7] is None
+    assert result[8] == (event['amount'] * -1)
+    assert result[9] == ''
+    assert result[10] == f'=I{row}+J{row}'
 
 
 def test_debit_pix_transfer_out(debit_events):
@@ -99,12 +101,13 @@ def test_debit_pix_transfer_out(debit_events):
     row = PIX_OUT_EVENT_INDEX + 2
 
     assert result[0] == event['postDate']
-    assert result[1] == f'=VLOOKUP(F{row};Categorias!F:G;2;FALSE)'
-    assert result[2] == event['title']
-    assert result[3] == 'NuConta'
-    assert result[4] == event['detail']
-    assert result[5] == f'=VLOOKUP(E{row};Categorias!E:F;2;FALSE)'
-    assert result[6] is None
-    assert result[7] == (event['amount'] * -1)
-    assert result[8] == ''
-    assert result[9] == f'=H{row}+I{row}'
+    assert result[1] == f'=VLOOKUP(G{row};Categorias!F:G;2;FALSE)'
+    assert result[2] == ''
+    assert result[3] == event['title']
+    assert result[4] == 'NuConta'
+    assert result[5] == event['detail']
+    assert result[6] == f'=VLOOKUP(F{row};Categorias!E:F;2;FALSE)'
+    assert result[7] is None
+    assert result[8] == (event['amount'] * -1)
+    assert result[9] == ''
+    assert result[10] == f'=I{row}+J{row}'
