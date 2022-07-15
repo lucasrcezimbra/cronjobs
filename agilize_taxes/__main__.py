@@ -10,12 +10,12 @@ def main(competence):
     company = agilize.companies()[0]
 
     competence = Competence.from_data(competence)
-    tax = company.taxes.get(competence)
 
-    filepath = Path.home() / 'Downloads' / f'{tax.abbreviation}_{competence}.pdf'
+    for tax in company.taxes.filter(competence):
+        filepath = Path.home() / 'Downloads' / f'{tax.abbreviation}_{competence}.pdf'
 
-    with open(filepath, 'wb') as f:
-        f.write(tax.download())
+        with open(filepath, 'wb') as f:
+            f.write(tax.download())
 
 
 if __name__ == '__main__':

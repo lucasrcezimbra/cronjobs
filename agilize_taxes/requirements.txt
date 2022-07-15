@@ -1,1 +1,1 @@
-git+https://github.com/lucasrcezimbra/agilize@5df4c09b9d7402e605d5a839c7b2043d550a452f#egg=agilize
+git+https://github.com/lucasrcezimbra/agilize@deff7b82fe78e85ef9098ed8db918e7bc31536b0#egg=agilize
