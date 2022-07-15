@@ -24,9 +24,18 @@ pynubank  # to get a certificate
 
 ### agilize
 
+#### Download prolabore
+
 ```bash
 source .venv/bin/activate
 python -m agilize_prolabore 2021-01-01
+```
+
+#### Download taxes
+
+```bash
+source .venv/bin/activate
+python -m agilize_taxes 2021-01-01
 ```
 
 
