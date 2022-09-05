@@ -89,7 +89,7 @@ def __create_account_dataframe(events):
     df['amount'] = df['amount'].apply(lambda x: x.replace('.', '') if x else 0)
     df['amount'] = df['amount'].apply(lambda x: x.replace(',', '.') if x else 0)
     df['amount'] = df['amount'].apply(float)
-    df.loc[df['ePositivo'] is False, 'amount'] = df['amount'].apply(lambda x: x * -1)
+    df.loc[df['ePositivo'] == False, 'amount'] = df['amount'].apply(lambda x: x * -1)  # noqa
     df['reembolso'] = None
     df['total'] = None
     del df['ePositivo']
