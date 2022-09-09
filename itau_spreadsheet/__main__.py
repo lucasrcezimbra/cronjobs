@@ -69,7 +69,7 @@ def __create_dataframe(events, date):
 
 def __create_account_dataframe(events):
     columns = [
-        'dataLancamento', 'category', 'descricaoLancamento', 'itau',
+        'dataLancamento', 'category', 'nr', 'descricaoLancamento', 'itau',
         'location', 'location2', 'parcela', 'valorLancamento', 'reembolso',
         'total', 'ePositivo',
     ]
@@ -82,6 +82,7 @@ def __create_account_dataframe(events):
     df.rename(columns=columns_mapper, inplace=True)
     df['date'] = pandas.to_datetime(df['date'], format='%d/%m/%Y')
     df['category'] = None
+    df['nr'] = None
     df['itau'] = 'Itaú'
     df['location'] = df['description']
     df['location2'] = None
