@@ -1,4 +1,4 @@
 oauth2client==4.1.3
 pandas==1.4.4
 pygsheets==2.0.5
-pynubank==2.19.1
+pynubank==2.20.0
