@@ -102,7 +102,7 @@ ENV/
 
 # End of https://www.gitignore.io/api/python
 
-*/service_creds.json
+service_creds.json
 
 *.ipynb
 cert.p12
