@@ -7,7 +7,7 @@ from decouple import config
 from pyitau import Itau
 
 from logs import get_logger
-from spreadsheets import insert
+from storage.google import sheet
 
 logger = get_logger(__name__)
 
@@ -38,7 +38,7 @@ def main(initial_date=None):
     last_events = list(dataframe.to_records(index=False))
 
     values = [list(r) for r in last_events]
-    insert(SPREADSHEET, WORKSHEET, values)
+    sheet.insert(SPREADSHEET, WORKSHEET, values)
 
 
 def __create_dataframe(events, date):
