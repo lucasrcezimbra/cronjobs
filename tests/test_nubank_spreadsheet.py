@@ -20,10 +20,9 @@ def debit_events():
             'id': uuid4(),
             '__typename': 'TransferInEvent',
             'title': 'Transferência recebida',
-            'detail': 'R$\xa040,50',
+            'detail': 'Jesse Pinkman - R$\xa040,50',
             'postDate': date_.strftime('%Y-%m-%d'),
             'amount': 40.5,
-            'originAccount': {'name': 'Jesse Pinkman'}
         },
         {
             'id': uuid4(),
@@ -32,7 +31,6 @@ def debit_events():
             'detail': 'Walter White - R$\xa0126,88',
             'postDate': date_.strftime('%Y-%m-%d'),
             'amount': 126.88,
-            'destinationAccount': {'name': 'Walter White'},
         },
         {
             'id': uuid4(),
@@ -63,7 +61,7 @@ def test_debit_transfer_in(debit_events):
     assert result[2] == ''
     assert result[3] == event['title']
     assert result[4] == 'NuConta'
-    assert result[5] == event['originAccount']['name']
+    assert result[5] == event['detail']
     assert result[6] == f'=VLOOKUP(F{row};Categorias!E:F;2;FALSE)'
     assert result[7] is None
     assert result[8] == event['amount']
@@ -84,7 +82,7 @@ def test_debit_transfer_out(debit_events):
     assert result[2] == ''
     assert result[3] == event['title']
     assert result[4] == 'NuConta'
-    assert result[5] == event['destinationAccount']['name']
+    assert result[5] == event['detail']
     assert result[6] == f'=VLOOKUP(F{row};Categorias!E:F;2;FALSE)'
     assert result[7] is None
     assert result[8] == (event['amount'] * -1)
