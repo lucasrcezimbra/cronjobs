@@ -86,23 +86,17 @@ def __create_credit_dataframe(events):
 
 def __create_debit_dataframe(events):
     columns = [
-        '__typename', 'postDate', 'category', 'recurrent', 'title', 'nubank', 'shop',
-        'shop2', 'destinationAccount', 'originAccount', 'detail', 'parcela', 'amount',
-        'reembolso', 'total'
+        '__typename', 'postDate', 'category', 'recurrent', 'title', 'nubank', 'shop2',
+        'detail', 'parcela', 'amount', 'reembolso', 'total'
     ]
     df = pd.DataFrame(events, columns=columns)
-    df.rename(columns={'title': 'description', 'postDate': 'time'},
+    df.rename(columns={'title': 'description', 'postDate': 'time', 'detail': 'shop'},
               inplace=True)
     df['time'] = pd.to_datetime(df['time'])
     df['category'] = None
     df['recurrent'] = None
     df['nubank'] = 'NuConta'
-    df['destinationAccount'] = df['destinationAccount'].apply(pd.Series)['name']
-    df['originAccount'] = df['originAccount'].apply(pd.Series)['name']
     df.fillna('', inplace=True)
-
-    df['shop'] = df["destinationAccount"] + df["originAccount"]
-    df.loc[df['shop'] == '', 'shop'] = df['detail']
 
     df['parcela'] = None
     df.loc[df['__typename'] == 'BarcodePaymentEvent', 'amount'] = (
@@ -117,8 +111,5 @@ def __create_debit_dataframe(events):
     df.loc[df['__typename'] == 'PixTransferOutEvent', 'amount'] = (
         df['amount'].apply(lambda x: x * -1)
     )
-    del df['destinationAccount']
-    del df['originAccount']
-    del df['detail']
     del df['__typename']
     return df
