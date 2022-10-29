@@ -1,6 +1,9 @@
 import sys
 from pathlib import Path
 
+from agilize import Agilize
+from decouple import config
+
 from storage.google import drive
 
 # 1. Enviar Invoice p/ Husky
@@ -9,13 +12,15 @@ from storage.google import drive
 # 4. Exportar nota como PDF
 # 5. Exportar nota como XML
 # ~6. Upload Nota PDF e XML p/ Drive~
-# 7. Atulizar contabilidade
-# 8. Upload nota para Agilize
+# 7. Atualizar contabilidade
+# ~8. Upload nota para Agilize~
 
 
 def main(number, invoice_path, pdf_path, xml_path):
     # 2. Upload Invoice p/ Drive
     # 6. Upload Nota PDF e XML p/ Drive
+    # 8. Upload nota para Agilize
+    agilize = Agilize(username=config('AGILIZE_USERNAME'), password=config('AGILIZE_PASSWORD'))
 
     with open(invoice_path, 'rb') as f:
         filename, _ = Path(f.name).name.split('.')
@@ -33,11 +38,13 @@ def main(number, invoice_path, pdf_path, xml_path):
         )
 
     with open(xml_path, 'rb') as f:
+        data = f.read()
         drive.upload(
-            file=f.read(),
+            file=data,
             filename=f'nota{number}_lote.xml',
             folder=drive.INVOICES_FOLDER,
         )
+        agilize.upload_nfse(data)
 
 
 if __name__ == '__main__':
