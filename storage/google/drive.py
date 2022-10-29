@@ -8,9 +8,11 @@ from googleapiclient.http import MediaIoBaseUpload
 from storage.google.auth import get_auth_filepath
 
 PROLABORE_FOLDER = 'PROLABORE_FOLDER'
+TAXES_FOLDER = 'TAXES_FOLDER'
 
 PARENTS = {
     PROLABORE_FOLDER: config('PROLABORE_FOLDER_ID'),
+    TAXES_FOLDER: config('TAXES_FOLDER_ID'),
 }
 
 MIMETYPES = {
