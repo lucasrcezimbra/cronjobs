@@ -1,8 +1,9 @@
 import sys
-from pathlib import Path
 
 from agilize import Agilize, Competence
 from decouple import config
+
+from storage.google import drive
 
 
 def main(competence):
@@ -12,10 +13,11 @@ def main(competence):
     competence = Competence.from_data(competence)
     invoice = company.invoices.get(competence)
 
-    filepath = Path.home() / 'Downloads' / f'agilize{competence}_nota.jpg'
-
-    with open(filepath, 'wb') as f:
-        f.write(invoice.download_nfse())
+    drive.upload(
+        file=invoice.download_nfse(),
+        filename=f'agilize{competence}_nota.jpg',
+        folder=drive.PAYMENTS_FOLDER,
+    )
 
 
 if __name__ == '__main__':
