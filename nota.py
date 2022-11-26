@@ -21,6 +21,7 @@ def main(number, invoice_path, pdf_path, xml_path):
     # 6. Upload Nota PDF e XML p/ Drive
     # 8. Upload nota para Agilize
     agilize = Agilize(username=config('AGILIZE_USERNAME'), password=config('AGILIZE_PASSWORD'))
+    company = agilize.companies()[0]
 
     with open(invoice_path, 'rb') as f:
         filename, _ = Path(f.name).name.split('.')
@@ -44,7 +45,7 @@ def main(number, invoice_path, pdf_path, xml_path):
             filename=f'nota{number}_lote.xml',
             folder=drive.INVOICES_FOLDER,
         )
-        agilize.upload_nfse(data)
+        company.upload_nfse(data)
 
 
 if __name__ == '__main__':
