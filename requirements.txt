@@ -1,7 +1,7 @@
 agilize==0.0.7
 bancointer==0.0.7
 oauth2client==4.1.3
-pandas==1.5.1
+pandas==1.5.2
 pygsheets==2.0.5
 pyitau==1.1.0
 pynubank==2.19.1
