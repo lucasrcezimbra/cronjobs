@@ -1,4 +1,4 @@
-agilize==0.0.9
+agilize==0.0.10
 bancointer==0.0.8
 oauth2client==4.1.3
 pandas==1.5.2
