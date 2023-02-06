@@ -6,4 +6,4 @@ pygsheets==2.0.6
 pyitau==1.1.0
 pynubank==2.19.1
 PyPDF2==3.0.1
-python-decouple==3.6
+python-decouple==3.7
