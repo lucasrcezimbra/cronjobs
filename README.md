@@ -4,6 +4,7 @@
 
 
 - TODO: Add ruff and black
+- TODO: try loguro
 
 
 ## Setup

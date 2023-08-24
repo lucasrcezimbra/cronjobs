@@ -1,5 +1,7 @@
 agilize==0.0.10
+attrs==23.1.0
 bancointer==0.0.8
+cattrs==23.1.2
 oauth2client==4.1.3
 pandas==1.5.2
 pygsheets==2.0.6
