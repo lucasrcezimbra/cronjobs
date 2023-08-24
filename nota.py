@@ -24,7 +24,7 @@ def main(number, invoice_path, pdf_path, xml_path):
     company = agilize.companies()[0]
 
     with open(invoice_path, 'rb') as f:
-        filename, _ = Path(f.name).name.split('.')
+        filename, *_ = Path(f.name).name.split('.')
         drive.upload(
             file=f.read(),
             filename=f'nota{number}_{filename}.pdf',
