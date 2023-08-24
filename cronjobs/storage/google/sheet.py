@@ -1,7 +1,7 @@
 import pygsheets
 
-from logs import get_logger
-from storage.google.auth import get_auth_filepath
+from cronjobs.logs import get_logger
+from cronjobs.storage.google.auth import get_auth_filepath
 
 logger = get_logger(__name__)
 

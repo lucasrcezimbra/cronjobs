@@ -6,7 +6,7 @@ from google.auth import load_credentials_from_file
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 
-from storage.google.auth import get_auth_filepath
+from cronjobs.storage.google.auth import get_auth_filepath
 
 INVOICES_FOLDER = 'INVOICES_FOLDER'
 PAYMENTS_FOLDER = 'PAYMENTS_FOLDER '

@@ -1,11 +1,12 @@
-from datetime import date, timedelta
+import sys
+from datetime import date, datetime, timedelta
 
 import pandas as pd
 from decouple import config
 from pynubank import Nubank
 
-from logs import get_logger
-from storage.google import sheet
+from cronjobs.logs import get_logger
+from cronjobs.storage.google import sheet
 
 logger = get_logger(__name__)
 
@@ -113,3 +114,11 @@ def __create_debit_dataframe(events):
     )
     del df['__typename']
     return df
+
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        initial_date = datetime.strptime(sys.argv[1], '%Y-%m-%d').date()
+        main(initial_date)
+    else:
+        main()

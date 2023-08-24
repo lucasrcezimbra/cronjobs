@@ -4,8 +4,8 @@ from agilize import Agilize, Competence
 from decouple import config
 from inter import Inter
 
-from logs import get_logger
-from storage.google import drive
+from cronjobs.logs import get_logger
+from cronjobs.storage.google import drive
 
 # ~1. Subir nota pro Google Drive~
 # ~2. Pagar boleto~

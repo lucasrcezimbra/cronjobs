@@ -3,7 +3,7 @@ from uuid import uuid4
 
 import pytest
 
-from nubank_spreadsheet import __create_dataframe
+from cronjobs.nubank_spreadsheet import __create_dataframe
 
 date_ = date(2021, 8, 25)
 

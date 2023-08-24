@@ -4,7 +4,7 @@ from pathlib import Path
 from agilize import Agilize
 from decouple import config
 
-from storage.google import drive
+from cronjobs.storage.google import drive
 
 # 1. Enviar Invoice p/ Husky
 # ~2. Upload Invoice p/ Drive~

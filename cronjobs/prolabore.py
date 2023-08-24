@@ -3,7 +3,7 @@ import sys
 from agilize import Agilize, Competence
 from decouple import config
 
-from storage.google import drive
+from cronjobs.storage.google import drive
 
 
 def main(competence):

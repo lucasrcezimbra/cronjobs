@@ -6,8 +6,8 @@ import pandas
 from decouple import config
 from pyitau import Itau
 
-from logs import get_logger
-from storage.google import sheet
+from cronjobs.logs import get_logger
+from cronjobs.storage.google import sheet
 
 logger = get_logger(__name__)
 
@@ -21,15 +21,17 @@ def main(initial_date=None):
         'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun',
         'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
     ]
-    AGENCY = config('ITAU_AGENCY')
-    ACCOUNT = config('ITAU_ACCOUNT')
-    ACCOUNT_DIGIT = config('ITAU_ACCOUNT_DIGIT')
-    PASSWORD = getpass('Senha do Itaú: ')
     SPREADSHEET = 'Gastos {}'.format(initial_date.year)
     WORKSHEET = MONTHS[initial_date.month]
 
     logger.info('Getting Itaú events')
-    itau = Itau(AGENCY, ACCOUNT, ACCOUNT_DIGIT, PASSWORD)
+    itau = Itau(
+        agency=config('ITAU_AGENCY'),
+        account=config('ITAU_ACCOUNT'),
+        account_digit=config('ITAU_ACCOUNT_DIGIT'),
+        password=getpass('Senha do Itaú: '),
+        holder=config('ITAU_HOLDER'),
+    )
     itau.authenticate()
     events = itau.get_statements()['lancamentos']
 
