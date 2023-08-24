@@ -30,14 +30,14 @@ pynubank  # to get a certificate
 
 ```bash
 source .venv/bin/activate
-python -m agilize_prolabore 2021-01-01
+python -m cronjobs.agilize_prolabore 2021-01-01
 ```
 
 #### Download taxes
 
 ```bash
 source .venv/bin/activate
-python -m agilize_taxes 2021-01-01
+python -m cronjobs.agilize_taxes 2021-01-01
 ```
 
 
@@ -45,7 +45,7 @@ python -m agilize_taxes 2021-01-01
 
 ```bash
 source .venv/bin/activate
-python -m nubank_spreadsheet 2021-01-01
+python -m cronjobs.nubank_spreadsheet 2021-01-01
 ```
 
 ### itau to spreadsheet
