@@ -2,7 +2,7 @@ from typing import Optional
 
 from attrs import define
 
-from cronjobs.itau import sheet
+from cronjobs.storage.google import sheet
 
 
 @define
