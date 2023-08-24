@@ -3,6 +3,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/lucasrcezimbra/cronjobs/badge.svg)](https://coveralls.io/github/lucasrcezimbra/cronjobs)
 
 
+- TODO: Add ruff and black
+
+
 ## Setup
 
 ```bash
@@ -45,9 +48,9 @@ source .venv/bin/activate
 python -m nubank_spreadsheet 2021-01-01
 ```
 
-### itau_spreadsheet
+### itau to spreadsheet
 
 ```bash
 source .venv/bin/activate
-python -m itau_spreadsheet 2021-01-01
+python -m cronjobs.itau 1  # month
 ```
