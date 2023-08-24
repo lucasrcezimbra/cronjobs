@@ -54,5 +54,5 @@ python -m cronjobs.nubank_spreadsheet 2021-01-01
 
 ```bash
 source .venv/bin/activate
-python -m cronjobs.itau 1  # month
+python -m cronjobs.itau 2023-01-01
 ```

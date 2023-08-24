@@ -30,8 +30,7 @@ def data_to_rows(invoices_data, month):
         extend(d['lancamentosInternacionais'])
         extend(d['comprasParceladas'])
 
-    entries = [converter.structure(d, Entry) for d in entries_data]
-    return [list(converter.unstructure_attrs_astuple(e.to_row())) for e in entries]
+    return [converter.structure(d, Entry).to_row() for d in entries_data]
 
 
 @define

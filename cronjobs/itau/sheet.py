@@ -1,8 +1,11 @@
 from typing import Optional
 
 from attrs import define
+from cattrs import Converter
 
 from cronjobs.storage.google import sheet
+
+converter = Converter()
 
 
 @define
@@ -25,9 +28,9 @@ MONTHS = [
 ]
 
 
-def insert(rows, month):
+def insert(rows, date_):
     if not rows:
         return
 
-    # TODO: remove hardcoded spreadsheet name
-    sheet.insert('Gastos 2023', MONTHS[month], rows)
+    values = [list(converter.unstructure_attrs_astuple(r)) for r in rows]
+    sheet.insert(f'Gastos {date_.year}', MONTHS[date_.month], values)
