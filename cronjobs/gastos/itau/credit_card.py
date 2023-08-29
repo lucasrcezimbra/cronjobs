@@ -16,16 +16,13 @@ def data_to_rows(invoices_data, month):
         if not data:
             return
 
-        print(f"Appending {len(data['titularidades'])} lançamentos nacionais")
         for t in data["titularidades"]:
             entries_data.extend(t["lancamentos"])
 
     for d in invoices_data["object"]["faturas"]:
         if date.fromisoformat(d["dataVencimento"]).month != month:
-            print(f"Skipping {d['dataVencimento']}")
             continue
 
-        print(f"Running for {d['dataVencimento']}")
         extend(d["lancamentosNacionais"])
         extend(d["lancamentosInternacionais"])
         extend(d["comprasParceladas"])
