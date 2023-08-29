@@ -23,6 +23,7 @@ def data_to_rows(invoices_data, month):
         if date.fromisoformat(d["dataVencimento"]).month != month:
             continue
 
+        # TODO: drop events after date_.day
         extend(d["lancamentosNacionais"])
         extend(d["lancamentosInternacionais"])
         extend(d["comprasParceladas"])
