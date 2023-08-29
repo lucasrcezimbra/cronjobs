@@ -17,18 +17,18 @@ def data_to_rows(invoices_data, month):
             return
 
         print(f"Appending {len(data['titularidades'])} lançamentos nacionais")
-        for t in data['titularidades']:
-            entries_data.extend(t['lancamentos'])
+        for t in data["titularidades"]:
+            entries_data.extend(t["lancamentos"])
 
-    for d in invoices_data['object']['faturas']:
-        if date.fromisoformat(d['dataVencimento']).month != month:
+    for d in invoices_data["object"]["faturas"]:
+        if date.fromisoformat(d["dataVencimento"]).month != month:
             print(f"Skipping {d['dataVencimento']}")
             continue
 
         print(f"Running for {d['dataVencimento']}")
-        extend(d['lancamentosNacionais'])
-        extend(d['lancamentosInternacionais'])
-        extend(d['comprasParceladas'])
+        extend(d["lancamentosNacionais"])
+        extend(d["lancamentosInternacionais"])
+        extend(d["comprasParceladas"])
 
     return [converter.structure(d, Entry).to_row() for d in entries_data]
 
@@ -45,10 +45,10 @@ class Entry:
         return Row(
             date_=self.data,
             description=self.descricao,
-            bank='Itaú Crédito',
+            bank="Itaú Crédito",
             business_raw=self.business,
             installment=self.installment,
-            value=f'-{self.valor}'
+            value=f"-{self.valor}",
         )
 
     @property
@@ -61,11 +61,11 @@ class Entry:
 
     @staticmethod
     def _business_and_installment(description):
-        search = re.search(r'\(?([0-9]{1,2}\/[0-9]{1,2})\)?', description)
+        search = re.search(r"\(?([0-9]{1,2}\/[0-9]{1,2})\)?", description)
 
         if not search:
             return description.strip(), None
 
-        business = description.replace(search.group(0), '').strip()
+        business = description.replace(search.group(0), "").strip()
         installment = search.group(1)
         return business, installment

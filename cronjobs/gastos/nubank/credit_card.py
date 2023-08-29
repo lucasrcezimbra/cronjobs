@@ -12,15 +12,19 @@ logger = get_logger(__name__)
 
 converter = Converter()
 converter.register_structure_hook(Decimal, lambda v, _: Decimal(str(v / 100)))
-converter.register_structure_hook(date, lambda v, _: datetime.strptime(v, '%Y-%m-%d').date())
+converter.register_structure_hook(
+    date, lambda v, _: datetime.strptime(v, "%Y-%m-%d").date()
+)
 
 
 def get_bill_data(bills_data, year_month):
-    return next(b for b in bills_data if b['summary']['due_date'].startswith(year_month))
+    return next(
+        b for b in bills_data if b["summary"]["due_date"].startswith(year_month)
+    )
 
 
 def data_to_rows(bill_detail_data, card_statements_data, nubank, year_month):
-    bill = converter.structure(bill_detail_data['bill'], Bill)
+    bill = converter.structure(bill_detail_data["bill"], Bill)
     return bill.to_rows(card_statements_data, nubank, year_month)
 
 
@@ -33,8 +37,8 @@ class Entry:
     transaction_id: Optional[str] = None
 
     def find_statement(self, statements_data):
-        logger.info(f'Finding statement for transaction {self.transaction_id}')
-        return next(s for s in statements_data if s['id'] == self.transaction_id)
+        logger.info(f"Finding statement for transaction {self.transaction_id}")
+        return next(s for s in statements_data if s["id"] == self.transaction_id)
 
     def get_details(self, statements_data, nubank):
         statement = self.find_statement(statements_data)
@@ -43,35 +47,37 @@ class Entry:
 
     def get_installments(self, statements_data, nubank, year_month):
         details = self.get_details(statements_data, nubank)
-        charges = details['transaction']['charges_list']
-        return [c for c in charges if c['post_date'].startswith(year_month)]
+        charges = details["transaction"]["charges_list"]
+        return [c for c in charges if c["post_date"].startswith(year_month)]
 
     def get_installment_index(self, statements_data, nubank, year_month):
         if not self.transaction_id:
-            return 'x'
+            return "x"
 
         installments = self.get_installments(statements_data, nubank, year_month)
 
         if not installments:
-            return 'x'
+            return "x"
 
-        return installments[0]['index']
+        return installments[0]["index"]
 
     def get_installment(self, statements_data, nubank, year_month):
         if self.charges == 1:
             return
 
-        installment_index = self.get_installment_index(statements_data, nubank, year_month)
-        return f'{installment_index}/{self.charges}'
+        installment_index = self.get_installment_index(
+            statements_data, nubank, year_month
+        )
+        return f"{installment_index}/{self.charges}"
 
     def to_row(self, statements_data, nubank, year_month):
         return Row(
             date_=str(self.post_date),
             description=self.title,
-            bank='Nubank Lucas',
+            bank="Nubank Lucas",
             business_raw=self.title,
             installment=self.get_installment(statements_data, nubank, year_month),
-            value=str(-self.amount).replace('.', ','),
+            value=str(-self.amount).replace(".", ","),
         )
 
 
@@ -80,4 +86,6 @@ class Bill:
     line_items: List[Entry]
 
     def to_rows(self, card_statements_data, nubank, year_month):
-        return [e.to_row(card_statements_data, nubank, year_month) for e in self.line_items]
+        return [
+            e.to_row(card_statements_data, nubank, year_month) for e in self.line_items
+        ]

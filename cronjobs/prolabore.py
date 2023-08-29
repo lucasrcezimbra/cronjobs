@@ -7,7 +7,9 @@ from cronjobs.storage.google import drive
 
 
 def main(competence):
-    agilize = Agilize(username=config('AGILIZE_USERNAME'), password=config('AGILIZE_PASSWORD'))
+    agilize = Agilize(
+        username=config("AGILIZE_USERNAME"), password=config("AGILIZE_PASSWORD")
+    )
     company = agilize.companies()[0]
 
     competence = Competence.from_data(competence)
@@ -15,10 +17,10 @@ def main(competence):
 
     drive.upload(
         file=prolabore.download(),
-        filename=f'{competence}-Lucas Rangel Cezimbra.pdf',
+        filename=f"{competence}-Lucas Rangel Cezimbra.pdf",
         folder=drive.PROLABORE_FOLDER,
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.argv[1])

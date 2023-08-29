@@ -12,19 +12,19 @@ logger = get_logger(__name__)
 
 
 def main(date_):
-    year_month = date_.strftime('%Y-%m')
+    year_month = date_.strftime("%Y-%m")
 
     nubank = Nubank()
-    logger.info('Authenticating with Nubank')
+    logger.info("Authenticating with Nubank")
     nubank.authenticate_with_cert(
-        cpf=config('NUBANK_CPF'),
-        password=config('NUBANK_PASSWORD'),
-        cert_path=config('NUBANK_CERT_PATH'),
+        cpf=config("NUBANK_CPF"),
+        password=config("NUBANK_PASSWORD"),
+        cert_path=config("NUBANK_CERT_PATH"),
     )
 
-    logger.info('Requesting bills')
+    logger.info("Requesting bills")
     bills_data = nubank.get_bills()
-    logger.info('Requesting card statements')
+    logger.info("Requesting card statements")
     card_statements_data = nubank.get_card_statements()
 
     bill_data = credit_card.get_bill_data(bills_data, year_month)
@@ -37,12 +37,12 @@ def main(date_):
         year_month=year_month,
     )
 
-    logger.info(f'Inserting {len(rows_credit_card)} rows into the spreadsheet')
+    logger.info(f"Inserting {len(rows_credit_card)} rows into the spreadsheet")
     sheet.insert(rows_credit_card, date_)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print('Usage: python -m cronjobs.gastos.nubank <year>-<month>-<day>')
+        print("Usage: python -m cronjobs.gastos.nubank <year>-<month>-<day>")
 
     main(date.fromisoformat(sys.argv[1]))

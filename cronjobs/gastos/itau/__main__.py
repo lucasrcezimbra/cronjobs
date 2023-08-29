@@ -10,14 +10,16 @@ from cronjobs.gastos.itau import checking_account, credit_card
 
 def main(date_):
     itau = Itau(
-        agency=config('ITAU_AGENCY'),
-        account=config('ITAU_ACCOUNT'),
-        account_digit=config('ITAU_ACCOUNT_DIGIT'),
-        password=config('ITAU_PASSWORD'),
-        holder_name=config('ITAU_HOLDER_NAME', default=None),
+        agency=config("ITAU_AGENCY"),
+        account=config("ITAU_ACCOUNT"),
+        account_digit=config("ITAU_ACCOUNT_DIGIT"),
+        password=config("ITAU_PASSWORD"),
+        holder_name=config("ITAU_HOLDER_NAME", default=None),
     )
     itau.authenticate()
-    rows_credit_card = credit_card.data_to_rows(itau.get_credit_card_invoice(), date_.month)
+    rows_credit_card = credit_card.data_to_rows(
+        itau.get_credit_card_invoice(), date_.month
+    )
     rows_checking_account = checking_account.data_to_rows(
         itau.get_statements_from_month(year=2023, month=date_.month), date_
     )
@@ -25,8 +27,8 @@ def main(date_):
     sheet.insert(rows_checking_account, date_)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print('Usage: python -m cronjobs.gastos.itau <year>-<month>-<day>')
+        print("Usage: python -m cronjobs.gastos.itau <year>-<month>-<day>")
 
     main(date.fromisoformat(sys.argv[1]))
