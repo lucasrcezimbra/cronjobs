@@ -3,17 +3,14 @@ import sys
 from agilize import Agilize, Competence
 from decouple import config
 from inter import Inter
+from loguru import logger
 
-from cronjobs.logs import get_logger
 from cronjobs.storage.google import drive
 
 # ~1. Subir nota pro Google Drive~
 # ~2. Pagar boleto~
 # 3. Atualizar contabilidade
 # 4. Subir comprovante pro Google Drive
-
-
-logger = get_logger(__name__)
 
 
 def main(competence):
@@ -43,7 +40,7 @@ def main(competence):
 
     logger.info("Paying barcode")
     result = inter.pay_barcode(invoice.barcode, invoice.amount, invoice.due_date)
-    logger.info(result)
+    logger.success(result)
 
 
 if __name__ == "__main__":

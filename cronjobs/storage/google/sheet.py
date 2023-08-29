@@ -1,9 +1,7 @@
 import pygsheets
+from loguru import logger
 
-from cronjobs.logs import get_logger
 from cronjobs.storage.google.auth import get_auth_filepath
-
-logger = get_logger(__name__)
 
 
 def insert(spreadsheet, worksheet, values):

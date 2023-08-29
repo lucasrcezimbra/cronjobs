@@ -2,13 +2,11 @@ import sys
 from datetime import date
 
 from decouple import config
+from loguru import logger
 from pynubank import Nubank
 
 from cronjobs.gastos import sheet
 from cronjobs.gastos.nubank import credit_card
-from cronjobs.logs import get_logger
-
-logger = get_logger(__name__)
 
 
 def main(date_):

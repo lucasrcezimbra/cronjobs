@@ -4,11 +4,9 @@ from typing import List, Optional
 
 from attrs import define
 from cattrs import Converter
+from loguru import logger
 
 from cronjobs.gastos.sheet import Row
-from cronjobs.logs import get_logger
-
-logger = get_logger(__name__)
 
 converter = Converter()
 converter.register_structure_hook(Decimal, lambda v, _: Decimal(str(v / 100)))

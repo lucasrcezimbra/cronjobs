@@ -5,9 +5,9 @@ from io import BytesIO
 from agilize import Agilize, Competence
 from decouple import config
 from inter import Inter
+from loguru import logger
 from PyPDF2 import PdfReader
 
-from cronjobs.logs import get_logger
 from cronjobs.storage.google import drive
 
 # ~1. Subir boletos para o drive~
@@ -15,8 +15,6 @@ from cronjobs.storage.google import drive
 # 3. Subir comprovantes para o Drive
 # 4. Subir comprovantes para a Agilize
 # 4. Atualizar contabilidade
-
-logger = get_logger(__name__)
 
 
 def barcode_from_pdf(file):
