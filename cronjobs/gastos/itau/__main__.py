@@ -4,7 +4,7 @@ from datetime import date
 from decouple import config
 from pyitau import Itau
 
-from cronjobs.itau import checking_account, credit_card, sheet
+from cronjobs.gastos.itau import checking_account, credit_card, sheet
 
 
 def main(date_):
@@ -26,6 +26,6 @@ def main(date_):
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print('Usage: python -m cronjobs.itau <year>-<month>-<day>')
+        print('Usage: python -m cronjobs.gastos.itau <year>-<month>-<day>')
 
     main(date.fromisoformat(sys.argv[1]))

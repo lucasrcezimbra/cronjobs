@@ -1,4 +1,4 @@
-from cronjobs.itau.credit_card import Entry
+from cronjobs.gastos.itau.credit_card import Entry
 
 
 def test_business_and_installment():
