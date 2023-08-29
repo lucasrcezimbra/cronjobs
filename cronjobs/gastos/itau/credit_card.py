@@ -4,7 +4,7 @@ from datetime import date
 from attrs import define
 from cattrs import Converter
 
-from cronjobs.gastos.itau.sheet import Row
+from cronjobs.gastos.sheet import Row
 
 converter = Converter()
 

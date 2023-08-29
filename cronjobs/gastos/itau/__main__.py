@@ -4,7 +4,8 @@ from datetime import date
 from decouple import config
 from pyitau import Itau
 
-from cronjobs.gastos.itau import checking_account, credit_card, sheet
+from cronjobs.gastos import sheet
+from cronjobs.gastos.itau import checking_account, credit_card
 
 
 def main(date_):

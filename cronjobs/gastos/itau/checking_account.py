@@ -4,7 +4,7 @@ from typing import Optional
 from attrs import define
 from cattrs import Converter
 
-from cronjobs.gastos.itau.sheet import Row
+from cronjobs.gastos.sheet import Row
 
 converter = Converter()
 converter.register_structure_hook(
