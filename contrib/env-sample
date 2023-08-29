@@ -1,6 +1,7 @@
-# nubank-spreadsheet
+# Nubank
 NUBANK_CPF=12345678901
 NUBANK_PASSWORD=P4SSW0RD
+NUBANK_CERT_PATH=/path/to/cert.p12
 
 
 # Create your Signed Credentials for Google Spreadsheet, read more in https://pygsheets.readthedocs.io/en/stable/authorization.html
