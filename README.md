@@ -3,11 +3,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/lucasrcezimbra/cronjobs/badge.svg)](https://coveralls.io/github/lucasrcezimbra/cronjobs)
 
 
-- TODO: Add ruff and black
-- TODO: try loguro
-- TODO: pip to poetry
-
-
 ## Setup
 
 ```bash
