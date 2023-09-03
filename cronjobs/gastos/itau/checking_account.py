@@ -3,6 +3,7 @@ from typing import Optional
 
 from attrs import define
 from cattrs import Converter
+from loguru import logger
 
 from cronjobs.gastos.sheet import Row
 
@@ -13,7 +14,13 @@ converter.register_structure_hook(
 
 
 def data_to_rows(data, date_):
-    for entry_data in data["lancamentos"]:
+    entries_data = data["lancamentos"]
+
+    if not entries_data:
+        logger.warning(f'No entries found for date "{date_}"')
+        return
+
+    for entry_data in entries_data:
         entry = converter.structure(entry_data, Entry)
         if entry.indicadorOperacao not in ("credito", "debito"):
             continue
