@@ -61,7 +61,7 @@ class Entry:
 
     def get_installment(self, statements_data, nubank, year_month):
         if self.charges == 1:
-            return
+            return ""
 
         installment_index = self.get_installment_index(
             statements_data, nubank, year_month
@@ -70,12 +70,12 @@ class Entry:
 
     def to_row(self, statements_data, nubank, year_month):
         return Row(
-            date_=str(self.post_date),
+            date_=self.post_date,
             description=self.title,
             bank="Nubank Lucas",
             business_raw=self.title,
             installment=self.get_installment(statements_data, nubank, year_month),
-            value=str(-self.amount).replace(".", ","),
+            value=-self.amount,
         )
 
 
