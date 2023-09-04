@@ -38,11 +38,62 @@ class TestWorksheet:
 
     def test_insert(self, mocker):
         spreadsheet_mock = mocker.MagicMock()
-        name = "worksheet"
         values = [1, 2, 3]
 
-        worksheet = Worksheet(name, spreadsheet=spreadsheet_mock)
+        worksheet = Worksheet("worksheet", spreadsheet=spreadsheet_mock)
         worksheet.insert(values)
 
         insert_mock = spreadsheet_mock.worksheet_by_title.return_value.insert_rows
         insert_mock.assert_called_once_with(1, number=len(values), values=values)
+
+    def test_get_values(self, mocker):
+        spreadsheet_mock = mocker.MagicMock()
+
+        worksheet = Worksheet("worksheet", spreadsheet=spreadsheet_mock)
+        rows = worksheet.get_all()
+
+        get_values_mock = spreadsheet_mock.worksheet_by_title.return_value.get_values
+        get_values_mock.assert_called_once_with(None, None)
+        assert rows == get_values_mock.return_value
+
+    def test_get_values_cast(self, mocker):
+        spreadsheet_mock = mocker.MagicMock()
+        get_values_mock = spreadsheet_mock.worksheet_by_title.return_value.get_values
+        get_values_mock.return_value = [[1, 2, 3], [1, 4, 6]]
+
+        worksheet = Worksheet("worksheet", spreadsheet=spreadsheet_mock)
+        rows = worksheet.get_all(cast=tuple)
+
+        assert rows == [(1, 2, 3), (1, 4, 6)]
+
+    def test_deduplicated(self, mocker):
+        def deduplicate(rows, existing_rows):
+            return [r for r in rows if r not in existing_rows]
+
+        spreadsheet_mock = mocker.MagicMock()
+        get_values_mock = spreadsheet_mock.worksheet_by_title.return_value.get_values
+        get_values_mock.return_value = [["row 1"], ["row 2"]]
+        values = [["row 1"], ["not duplicated row"]]
+
+        worksheet = Worksheet("worksheet", spreadsheet=spreadsheet_mock)
+        deduplicated_rows = worksheet.deduplicate(values, deduplicate)
+
+        assert deduplicated_rows == [["not duplicated row"]]
+
+    def test_insert_deduplicate(self, mocker):
+        def deduplicate(rows, existing_rows):
+            return [r for r in rows if r not in existing_rows]
+
+        spreadsheet_mock = mocker.MagicMock()
+        get_values_mock = spreadsheet_mock.worksheet_by_title.return_value.get_values
+        get_values_mock.return_value = [["row 1"], ["row 2"]]
+        values = [["row 1"], ["not duplicated row"]]
+
+        worksheet = Worksheet("worksheet", spreadsheet=spreadsheet_mock)
+        worksheet.insert(values, deduplicate=deduplicate)
+
+        expected_values = [["not duplicated row"]]
+        insert_mock = spreadsheet_mock.worksheet_by_title.return_value.insert_rows
+        insert_mock.assert_called_once_with(
+            1, number=len(expected_values), values=expected_values
+        )
