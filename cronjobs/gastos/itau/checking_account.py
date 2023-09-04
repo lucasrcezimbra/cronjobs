@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from decimal import Decimal
 from typing import Optional
 
 from attrs import define
@@ -10,6 +11,9 @@ from cronjobs.gastos.sheet import Row
 converter = Converter()
 converter.register_structure_hook(
     date, lambda v, _: datetime.strptime(v, "%d/%m/%Y").date() if v else None
+)
+converter.register_structure_hook(
+    Decimal, lambda v, _: Decimal(v.replace(".", "").replace(",", ".")) if v else None
 )
 
 
@@ -34,12 +38,12 @@ class Entry:
     dataLancamento: Optional[date]
     descricaoLancamento: str
     descricaoDetalhadaLancamento: str
-    valorLancamento: str
+    valorLancamento: Decimal
     indicadorOperacao: str
 
     def to_row(self):
         return Row(
-            date_=str(self.dataLancamento),
+            date_=self.dataLancamento,
             description=self.description,
             bank="Itaú Conta",
             business_raw=self.description,
@@ -55,5 +59,5 @@ class Entry:
     def value(self):
         value = self.valorLancamento
         if self.indicadorOperacao == "debito":
-            value = f"-{value}"
+            value = -value
         return value

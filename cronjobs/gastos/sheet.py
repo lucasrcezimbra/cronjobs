@@ -1,16 +1,30 @@
+from datetime import date, datetime
+from decimal import Decimal
 from typing import Optional
 
 from attrs import define
 from cattrs import Converter
+from loguru import logger
 
 from cronjobs.storage.google.sheet import Worksheet
 
 converter = Converter()
+converter.register_unstructure_hook(date, lambda d: d.strftime("%d/%m/%Y"))
+converter.register_structure_hook(
+    date, lambda d, _: datetime.strptime(d, "%d/%m/%Y").date() if d else None
+)
+converter.register_unstructure_hook(Decimal, lambda d: str(d).replace(".", ","))
+converter.register_structure_hook(
+    Decimal,
+    lambda d, _: Decimal(d.replace("R$ ", "").replace(".", "").replace(",", "."))
+    if d
+    else None,
+)
 
 
 @define
 class Row:
-    date_: str
+    date_: Optional[date] = None
     categoria: Optional[str] = ""
     recurrent: Optional[str] = ""
     description: str = ""
@@ -18,7 +32,7 @@ class Row:
     business_raw: str = ""
     business: Optional[str] = ""
     installment: Optional[str] = ""
-    value: str = ""
+    value: Decimal = ""
     new: str = "NEW"
 
     def __eq__(self, other):
@@ -50,18 +64,23 @@ MONTHS = [
 
 
 def deduplicate(rows, existing_rows):
-    return [r for r in rows if r not in existing_rows]
+    logger.info(f"Deduplicating {len(rows)} rows against {len(existing_rows)} existing")
+    result = [r for r in rows if r not in existing_rows]
+    logger.info(f"{len(result)} rows left after deduplication")
+    return result
 
 
 def insert(rows, date_, deduplicate=deduplicate):
     if not rows:
         return
 
-    worksheet = Worksheet(f"Gastos {date_.year}", MONTHS[date_.month])
+    worksheet = Worksheet(
+        name=MONTHS[date_.month], spreadsheet_name=f"Gastos {date_.year}"
+    )
 
     if deduplicate:
         existing_rows = [
-            converter.structure_attrs_fromtuple(r, Row) for r in worksheet.get_all()
+            converter.structure_attrs_fromtuple(r, Row) for r in worksheet.get_all()[1:]
         ]
         rows = deduplicate(rows, existing_rows)
 

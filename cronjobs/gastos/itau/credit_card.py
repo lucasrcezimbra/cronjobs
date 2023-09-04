@@ -1,5 +1,6 @@
 import re
 from datetime import date
+from decimal import Decimal
 
 from attrs import define
 from cattrs import Converter
@@ -7,6 +8,12 @@ from cattrs import Converter
 from cronjobs.gastos.sheet import Row
 
 converter = Converter()
+converter.register_structure_hook(
+    date, lambda v, _: date.fromisoformat(v) if v else None
+)
+converter.register_structure_hook(
+    Decimal, lambda v, _: Decimal(v.replace(".", "").replace(",", ".")) if v else None
+)
 
 
 def data_to_rows(invoices_data, month):
@@ -34,9 +41,9 @@ def data_to_rows(invoices_data, month):
 @define
 class Entry:
     # TODO: translate to english
-    data: str
+    data: date
     descricao: str
-    valor: str
+    valor: Decimal
     sinalValor: str
 
     def to_row(self):
@@ -46,7 +53,7 @@ class Entry:
             bank="Itaú Crédito",
             business_raw=self.business,
             installment=self.installment,
-            value=f"-{self.valor}",
+            value=-self.valor,
         )
 
     @property
@@ -62,7 +69,7 @@ class Entry:
         search = re.search(r"\(?([0-9]{1,2}\/[0-9]{1,2})\)?", description)
 
         if not search:
-            return description.strip(), None
+            return description.strip(), ""
 
         business = description.replace(search.group(0), "").strip()
         installment = search.group(1)
