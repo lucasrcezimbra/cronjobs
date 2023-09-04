@@ -19,6 +19,7 @@ class Row:
     business: Optional[str] = ""
     installment: Optional[str] = ""
     value: str = ""
+    new: str = "NEW"
 
 
 MONTHS = [
