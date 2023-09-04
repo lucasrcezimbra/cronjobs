@@ -2,10 +2,10 @@ from cronjobs.gastos.itau.credit_card import Entry
 
 
 def test_business_and_installment():
-    assert Entry._business_and_installment("COMPRA CREDITO") == ("COMPRA CREDITO", None)
+    assert Entry._business_and_installment("COMPRA CREDITO") == ("COMPRA CREDITO", "")
     assert Entry._business_and_installment("COMPRA CREDITO         ") == (
         "COMPRA CREDITO",
-        None,
+        "",
     )
     assert Entry._business_and_installment("COMPRA CREDITO (1/2)") == (
         "COMPRA CREDITO",
