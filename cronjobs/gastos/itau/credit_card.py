@@ -24,9 +24,9 @@ def data_to_rows(invoices_data, month):
             continue
 
         # TODO: drop events after date_.day
-        extend(d["lancamentosNacionais"])
-        extend(d["lancamentosInternacionais"])
-        extend(d["comprasParceladas"])
+        extend(d.get("lancamentosNacionais"))
+        extend(d.get("lancamentosInternacionais"))
+        extend(d.get("comprasParceladas"))
 
     return [converter.structure(d, Entry).to_row() for d in entries_data]
 
