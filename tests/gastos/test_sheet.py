@@ -78,3 +78,32 @@ def test_deduplicate_ignore_some_fields(row):
 
     assert deduplicate(rows, existing_rows) == []
     assert deduplicate(existing_rows, rows) == []
+
+
+class TestFormat:
+    def test_return_row(self):
+        row = Row()
+
+        new_row = row.format(n=2)
+
+        assert new_row is row
+
+    def test_format_cells(self):
+        row = Row().format(n=2)
+
+        assert row.categoria == "=VLOOKUP(G2;Categorias!F:G;2;FALSE)"
+        assert row.business == "=VLOOKUP(F2;Categorias!E:F;2;FALSE)"
+
+        row = Row().format(n=3)
+        assert row.categoria == "=VLOOKUP(G3;Categorias!F:G;2;FALSE)"
+        assert row.business == "=VLOOKUP(F3;Categorias!E:F;2;FALSE)"
+
+    def test_format_cells_index(self):
+        row = Row().format(index=0)
+
+        assert row.categoria == "=VLOOKUP(G2;Categorias!F:G;2;FALSE)"
+        assert row.business == "=VLOOKUP(F2;Categorias!E:F;2;FALSE)"
+
+        row = Row().format(index=1)
+        assert row.categoria == "=VLOOKUP(G3;Categorias!F:G;2;FALSE)"
+        assert row.business == "=VLOOKUP(F3;Categorias!E:F;2;FALSE)"

@@ -22,18 +22,28 @@ converter.register_structure_hook(
 )
 
 
+class Cell(str):
+    pass
+
+
 @define
 class Row:
     date_: Optional[date] = None
-    categoria: Optional[str] = ""
+    categoria: Cell = Cell("=VLOOKUP(G{n};Categorias!F:G;2;FALSE)")
     recurrent: Optional[str] = ""
     description: str = ""
     bank: str = ""
     business_raw: str = ""
-    business: Optional[str] = ""
+    business: Cell = Cell("=VLOOKUP(F{n};Categorias!E:F;2;FALSE)")
     installment: Optional[str] = ""
     value: Decimal = ""
     new: str = "NEW"
+
+    def format(self, n=None, index=None):
+        n = n if n else index + 2
+        self.categoria = self.categoria.format(n=n)
+        self.business = self.business.format(n=n)
+        return self
 
     def __eq__(self, other):
         return (
@@ -84,5 +94,8 @@ def insert(rows, date_, deduplicate=deduplicate):
         ]
         rows = deduplicate(rows, existing_rows)
 
-    values = [list(converter.unstructure_attrs_astuple(r)) for r in rows]
+    values = [
+        list(converter.unstructure_attrs_astuple(r.format(index=i)))
+        for i, r in enumerate(rows)
+    ]
     worksheet.insert(values)
