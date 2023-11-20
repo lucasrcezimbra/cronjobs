@@ -95,13 +95,13 @@ files = [
 
 [[package]]
 name = "cattrs"
-version = "23.2.0"
+version = "23.2.1"
 description = "Composable complex class support for attrs and dataclasses."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "cattrs-23.2.0-py3-none-any.whl", hash = "sha256:9783f5afefc889b680a83b7afc88c53388ae89d05d4c199b35869beac1f77832"},
-    {file = "cattrs-23.2.0.tar.gz", hash = "sha256:49dccdb50a22524c1129b00d67eaaade61065e0bf8961e27d0c8a12d8b02af12"},
+    {file = "cattrs-23.2.1-py3-none-any.whl", hash = "sha256:c505344019b1a2708c775ffb1b8d092654d22a570799bb7b925c9effefc22703"},
+    {file = "cattrs-23.2.1.tar.gz", hash = "sha256:c9685821a75dc8588b90e847f47bcb6fba7bce8f280d5dc4edd3290e827854ec"},
 ]
 
 [package.dependencies]
@@ -1420,4 +1420,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "17f10ab00e1114d46e26dd77a5c6642b19dd0709f4b7929800fe7a0326e032c4"
+content-hash = "0166e7e906833cd9753d7229fdf1978d33ec249e4c0bdfc06d946c7614b0172c"
