@@ -29,12 +29,12 @@ class Cell(str):
 @define
 class Row:
     date_: Optional[date] = None
-    categoria: Cell = Cell("=VLOOKUP(G{n};Categorias!F:G;2;FALSE)")
+    categoria: Cell = Cell("=VLOOKUP(G{n};_Categorias!F:G;2;FALSE)")
     recurrent: Optional[str] = ""
     description: str = ""
     bank: str = ""
     business_raw: str = ""
-    business: Cell = Cell("=VLOOKUP(F{n};Categorias!E:F;2;FALSE)")
+    business: Cell = Cell("=VLOOKUP(F{n};_Categorias!E:F;2;FALSE)")
     installment: Optional[str] = ""
     value: Decimal = ""
     new: str = "NEW"
