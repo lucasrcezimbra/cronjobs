@@ -42,9 +42,11 @@ def run(username):
             with open(dbpath, "a") as f:
                 f.write(s.json() + "\n")
 
-            url = s.thumbnail_url if s.media_type == 1 else s.video_url
-            c.story_download_by_url(url, s.pk, path)
+            c.story_download_by_url(s.thumbnail_url, s.pk, path)
             logger.info(f"{s.pk} new")
+            if s.video_url:
+                c.story_download_by_url(s.video_url, s.pk, path)
+                logger.info(f"video {s.pk} new")
         except AlreadyExists:
             logger.info(f"{s.pk} exists")
             continue
