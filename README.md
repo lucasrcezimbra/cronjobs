@@ -25,15 +25,6 @@ poetry run python -m cronjobs.agilize_taxes 2021-01-01
 ```
 
 
-### Gastos Nubank
-```bash
-pynubank  # to get a certificate
-```
-```bash
-poetry run python -m cronjobs.gastos.nubank 2023-01-01
-```
-
-
 ### Gastos Itaú
 ```bash
 poetry run python -m cronjobs.gastos.itau 2023-01-01
