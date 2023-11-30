@@ -10,15 +10,13 @@ class AlreadyExists(Exception):
     pass
 
 
-ACCOUNT_USERNAME, ACCOUNT_PASSWORD = config("INSTAGRAM_USERNAME"), config(
-    "INSTAGRAM_PASSWORD"
-)
+SESSION_ID = config("INSTAGRAM_SESSION_ID")
 
 
 def run(username):
     logger.info("Starting...")
     c = Client()
-    c.login(ACCOUNT_USERNAME, ACCOUNT_PASSWORD)
+    assert c.login_by_sessionid(SESSION_ID)
     logger.info(f"Logged. Getting user {username}")
     user_id = c.user_id_from_username(username)
     logger.info(f"Getting stories - user_id: {user_id}")
