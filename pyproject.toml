@@ -11,7 +11,7 @@ python = "^3.9"
 
 agilize = "^0.0.10"
 bancointer = "^0.0.9"
-cattrs = "^23.2.2"
+cattrs = "^23.2.3"
 instagrapi = "^2.0.0"
 loguru = "^0.7.2"
 oauth2client = "^4.1.3"
