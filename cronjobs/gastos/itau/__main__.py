@@ -1,6 +1,7 @@
-import sys
-from datetime import date
+from datetime import datetime
+from typing import Annotated
 
+import typer
 from decouple import config
 from loguru import logger
 from pyitau import Itau
@@ -9,7 +10,8 @@ from cronjobs.gastos import sheet
 from cronjobs.gastos.itau import checking_account, credit_card
 
 
-def main(date_):
+def main(dt: Annotated[datetime, typer.Argument(formats=["%Y-%m-%d"])]):
+    date_ = dt.date()
     logger.info(f"Running Itaú {date_}")
     itau = Itau(
         agency=config("ITAU_AGENCY"),
@@ -42,7 +44,4 @@ def main(date_):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python -m cronjobs.gastos.itau <year>-<month>-<day>")
-
-    main(date.fromisoformat(sys.argv[1]))
+    typer.run(main)
