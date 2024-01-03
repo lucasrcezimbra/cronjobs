@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  itau:
+    build: .
+    command: poetry run python -m cronjobs.gastos.itau schedule
+    environment:
+      - AUTH_TYPE=${AUTH_TYPE}
+      - AUTH_PROJECT_ID=${AUTH_PROJECT_ID}
+      - AUTH_PRIVATE_KEY_ID=${AUTH_PRIVATE_KEY_ID}
+      - AUTH_PRIVATE_KEY=${AUTH_PRIVATE_KEY}
+      - AUTH_CLIENT_EMAIL=${AUTH_CLIENT_EMAIL}
+      - AUTH_CLIENT_ID=${AUTH_CLIENT_ID}
+      - AUTH_AUTH_URI=${AUTH_AUTH_URI}
+      - AUTH_TOKEN_URI=${AUTH_TOKEN_URI}
+      - AUTH_AUTH_PROVIDER_X509_CERT_URL=${AUTH_AUTH_PROVIDER_X509_CERT_URL}
+      - AUTH_CLIENT_X509_CERT_URL=${AUTH_CLIENT_X509_CERT_URL}
+      - ITAU_AGENCY=${ITAU_AGENCY}
+      - ITAU_ACCOUNT=${ITAU_ACCOUNT}
+      - ITAU_ACCOUNT_DIGIT=${ITAU_ACCOUNT_DIGIT}
+      - ITAU_HOLDER_NAME=${ITAU_HOLDER_NAME}
+      - ITAU_PASSWORD=${ITAU_PASSWORD}
+    restart: unless-stopped
