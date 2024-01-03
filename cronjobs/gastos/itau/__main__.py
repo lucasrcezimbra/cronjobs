@@ -1,17 +1,18 @@
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 from typing import Annotated
 
 import typer
 from decouple import config
 from loguru import logger
 from pyitau import Itau
+from schedule import every, repeat, run_pending
 
 from cronjobs.gastos import sheet
 from cronjobs.gastos.itau import checking_account, credit_card
 
 
-def main(dt: Annotated[datetime, typer.Argument(formats=["%Y-%m-%d"])]):
-    date_ = dt.date()
+def main(date_):
     logger.info(f"Running Itaú {date_}")
     itau = Itau(
         agency=config("ITAU_AGENCY"),
@@ -43,5 +44,23 @@ def main(dt: Annotated[datetime, typer.Argument(formats=["%Y-%m-%d"])]):
     logger.success("Done Itaú")
 
 
+app = typer.Typer()
+
+
+@app.command()
+@repeat(every(3).hours)
+def schedule():
+    main(datetime.now().date() - timedelta(days=2))
+
+    while True:
+        run_pending()
+        time.sleep(60 * 60)
+
+
+@app.command()
+def run(dt: Annotated[datetime, typer.Argument(formats=["%Y-%m-%d"])]):
+    main(dt.date())
+
+
 if __name__ == "__main__":
-    typer.run(main)
+    app()
