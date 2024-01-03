@@ -7,7 +7,7 @@ license = "GPL-3.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.12"
 
 agilize = "^0.0.10"
 bancointer = "^0.0.9"
