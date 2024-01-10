@@ -54,13 +54,13 @@ tests-no-zope = ["attrs[tests-mypy]", "cloudpickle", "hypothesis", "pympler", "p
 
 [[package]]
 name = "bancointer"
-version = "0.0.9"
+version = "0.1.0"
 description = "Client to consume Banco Inter APIs"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "bancointer-0.0.9-py3-none-any.whl", hash = "sha256:9ed06698d35597d6ee109ae98c36c4091162f096beb9ed2f7e6bc4268a825f8f"},
-    {file = "bancointer-0.0.9.tar.gz", hash = "sha256:174dc4a13baa378153cad2ed20ad73be47b602bfcfa16eac7132b405b3f11398"},
+    {file = "bancointer-0.1.0-py3-none-any.whl", hash = "sha256:a6a5892dbe4aa00c92f341dac79fd475a4d9471c3ee29e55c403e8b17d7519ef"},
+    {file = "bancointer-0.1.0.tar.gz", hash = "sha256:5dd283440e775027805077049cd40feadff51ced6b3067d5ec725478203510b9"},
 ]
 
 [package.dependencies]
@@ -1576,4 +1576,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "6dca0f8fbf9620bd4f6a9e7cbec92882e9cafd7850e98da0f365e4ed57e45558"
+content-hash = "2772d04b6572b0aaaec4a21b0fb6fa662b0ad3a10c55471149ed4920abd1dcd8"
