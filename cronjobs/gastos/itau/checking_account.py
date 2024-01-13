@@ -38,7 +38,6 @@ def data_to_rows(data, date_):
 class Entry:
     dataLancamento: Optional[date]
     descricaoLancamento: str
-    descricaoDetalhadaLancamento: str
     valorLancamento: Decimal
     indicadorOperacao: str
 
@@ -53,8 +52,7 @@ class Entry:
 
     @property
     def description(self):
-        description = self.descricaoDetalhadaLancamento or self.descricaoLancamento
-        return re.sub(r"(\d{2}/\d{2})", "", description).strip()
+        return re.sub(r"(\d{2}/\d{2})", "", self.descricaoLancamento).strip()
 
     @property
     def value(self):

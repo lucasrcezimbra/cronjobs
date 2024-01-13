@@ -19,7 +19,6 @@ def test_description(raw, expected):
     entry = Entry(
         dataLancamento=None,
         descricaoLancamento=raw,
-        descricaoDetalhadaLancamento="",
         valorLancamento=Decimal("1.0"),
         indicadorOperacao="debito",
     )
