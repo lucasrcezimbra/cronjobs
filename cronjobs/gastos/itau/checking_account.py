@@ -1,3 +1,4 @@
+import re
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Optional
@@ -52,8 +53,8 @@ class Entry:
 
     @property
     def description(self):
-        # TODO: remove date from description
-        return self.descricaoDetalhadaLancamento or self.descricaoLancamento
+        description = self.descricaoDetalhadaLancamento or self.descricaoLancamento
+        return re.sub(r"(\d{2}/\d{2})", "", description).strip()
 
     @property
     def value(self):
