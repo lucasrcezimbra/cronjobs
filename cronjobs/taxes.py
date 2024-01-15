@@ -62,7 +62,8 @@ def main(competence):
         if tax.abbreviation in ("DAS", "DCTFWeb"):
             barcode = barcode_from_pdf(file)
             logger.info(f"Paying {tax.abbreviation}: {barcode}")
-            inter.pay_barcode(barcode, tax.amount, tax.due_date)
+            result = inter.pay_barcode(barcode, tax.amount, tax.due_date)
+            logger.success(result)
 
 
 if __name__ == "__main__":
