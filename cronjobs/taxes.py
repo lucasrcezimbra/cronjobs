@@ -45,6 +45,10 @@ def main(competence):
     competence = Competence.from_data(competence)
 
     for tax in company.taxes.filter(competence):
+        if tax.amount == 0:
+            logger.info(f"Skipping {tax.abbreviation}")
+            continue
+
         logger.info(f"Downloading {tax.abbreviation}")
         file = tax.download()
 
