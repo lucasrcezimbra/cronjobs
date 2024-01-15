@@ -10,7 +10,7 @@ readme = "README.md"
 python = "^3.12"
 
 agilize = "0.0.10"
-bancointer = "0.1.0"
+bancointer = "0.1.1"
 cattrs = "23.2.3"
 instagrapi = "2.0.0"
 loguru = "0.7.2"
