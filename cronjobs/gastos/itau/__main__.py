@@ -6,13 +6,15 @@ import typer
 from decouple import config
 from loguru import logger
 from pyitau import Itau
-from schedule import every, repeat, run_pending
+from schedule import every, idle_seconds, repeat, run_all, run_pending
 
 from cronjobs.gastos import sheet
 from cronjobs.gastos.itau import checking_account, credit_card
 
 
-def main(date_):
+@repeat(every(3).hours)
+def main(date_=None):
+    date_ = date_ or datetime.now().date() - timedelta(days=2)
     logger.info(f"Running Itaú {date_}")
     itau = Itau(
         agency=config("ITAU_AGENCY"),
@@ -48,13 +50,14 @@ app = typer.Typer()
 
 
 @app.command()
-@repeat(every(3).hours)
 def schedule():
-    main(datetime.now().date() - timedelta(days=2))
-
+    run_all()
     while True:
+        n = idle_seconds()
+        if n > 0:
+            logger.info(f"Sleeping for {n} seconds")
+            time.sleep(n)
         run_pending()
-        time.sleep(60 * 60)
 
 
 @app.command()
