@@ -62,7 +62,7 @@ MONTHS = [
     "Fev",
     "Mar",
     "Abr",
-    "Maio",
+    "Mai",
     "Jun",
     "Jul",
     "Ago",
