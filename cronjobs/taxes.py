@@ -55,7 +55,7 @@ def main(competence):
         logger.info(f"Uploading {tax.abbreviation}")
         drive.upload(
             file=file,
-            filename=f"{tax.abbreviation}_{competence}.pdf",
+            filename=f"{competence}_{tax.abbreviation}.pdf",
             folder=drive.TAXES_FOLDER,
         )
 
