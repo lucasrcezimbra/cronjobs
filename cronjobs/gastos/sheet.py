@@ -16,9 +16,9 @@ converter.register_structure_hook(
 converter.register_unstructure_hook(Decimal, lambda d: str(d).replace(".", ","))
 converter.register_structure_hook(
     Decimal,
-    lambda d, _: Decimal(d.replace("R$ ", "").replace(".", "").replace(",", "."))
-    if d
-    else None,
+    lambda d, _: (
+        Decimal(d.replace("R$ ", "").replace(".", "").replace(",", ".")) if d else None
+    ),
 )
 
 
