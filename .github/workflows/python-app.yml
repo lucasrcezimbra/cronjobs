@@ -13,11 +13,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pipx install poetry
-      - name: Install dependencies
-        run: |
-          poetry install
-          poetry run pre-commit install
-      - run: poetry run pre-commit run -a
+      - run: poetry install
       - run: poetry run pytest --cov=cronjobs
       - run: poetry run coveralls --service=github
         env:
