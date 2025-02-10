@@ -425,18 +425,17 @@ tests = ["asttokens (>=2.1.0)", "coverage", "coverage-enable-subprocess", "ipyth
 
 [[package]]
 name = "faker"
-version = "35.2.0"
+version = "36.0.0"
 description = "Faker is a Python package that generates fake data for you."
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "Faker-35.2.0-py3-none-any.whl", hash = "sha256:609abe555761ff31b0e5e16f958696e9b65c9224a7ac612ac96bfc2b8f09fe35"},
-    {file = "faker-35.2.0.tar.gz", hash = "sha256:28c24061780f83b45d9cb15a72b8f143b09d276c9ff52eb557744b7a89e8ba19"},
+    {file = "Faker-36.0.0-py3-none-any.whl", hash = "sha256:67b89f255843c84fac395ae4430d48a7422e1f48b3435dbcceb77364d24e2bb8"},
+    {file = "faker-36.0.0.tar.gz", hash = "sha256:e00cf69e55d3466f93c82cf63259a484d14b48702a1d9ed719ff039e9f392b49"},
 ]
 
 [package.dependencies]
 python-dateutil = ">=2.4"
-typing-extensions = "*"
 
 [[package]]
 name = "filelock"
@@ -1740,4 +1739,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11"
-content-hash = "1bda81ebd8404c5b36ab1415fade44be5a1a89b06b20913d15fb7e62ae39cf6a"
+content-hash = "28008152df5791b9d9d016e8a1943ec3a8ee837e2d859e5533787d34d01b6aca"
