@@ -27,7 +27,7 @@ typer = "0.15.2"
 [tool.poetry.group.dev.dependencies]
 coveralls = "3.3.1"
 faker = "37.0.0"
-ipython = "9.0.1"
+ipython = "9.0.2"
 pre-commit = "4.1.0"
 pytest = "8.3.5"
 pytest-cov = "5.0.0"
